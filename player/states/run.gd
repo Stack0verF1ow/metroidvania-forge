@@ -1,0 +1,2 @@
+class_name PlayerStateRun
+extends PlayerState

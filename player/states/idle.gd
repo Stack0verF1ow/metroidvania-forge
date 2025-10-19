@@ -1,0 +1,2 @@
+class_name PlayerStateIdle
+extends PlayerState

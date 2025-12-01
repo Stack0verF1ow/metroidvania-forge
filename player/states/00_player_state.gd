@@ -1,14 +1,22 @@
+@icon("res://player/states/state.svg") 
 class_name PlayerState
 extends Node
 
 var player : Player
 var next_state : PlayerState
 
+@onready var idle: PlayerStateIdle = %Idle
+@onready var run: PlayerStateRun = %Run
+@onready var jump: PlayerStateJump = %Jump
+@onready var fall: PlayerStateFall = %Fall
+
+
 func init() -> void:
 	print("init!" + name)
 	pass
 	
 func enter() -> void:
+	print("enter!" + name)
 	pass
 	
 func exit() -> void:

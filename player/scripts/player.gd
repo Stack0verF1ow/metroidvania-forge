@@ -1,7 +1,13 @@
 class_name Player
 extends CharacterBody2D
 
-@export var move_speed : float = 150
+@onready var sprite: Sprite2D = $Sprite2D
+@onready var collision_stand: CollisionShape2D = $CollisionShapeStand
+@onready var collision_crouch: CollisionShape2D = $CollisionShapeCrouch
+@onready var one_way_platform_ray_cast: RayCast2D = $OneWayPlatformRayCast
+
+
+const MOVE_SPEED : float = 150
 
 var states : Array[PlayerState]
 var current_state : PlayerState :

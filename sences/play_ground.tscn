@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1s36bq3q0tqp"]
+[gd_scene load_steps=6 format=3 uid="uid://d1s36bq3q0tqp"]
 
+[ext_resource type="PackedScene" uid="uid://c3yapgic1owpg" path="res://sences/one_way_platform.tscn" id="1_1nocq"]
 [ext_resource type="PackedScene" uid="uid://cums1t8ks6e10" path="res://player/player.tscn" id="1_3i2ua"]
 
 [sub_resource type="Gradient" id="Gradient_r8d6k"]
@@ -78,5 +79,7 @@ metadata/_edit_lock_ = true
 shape = SubResource("RectangleShape2D_1nocq")
 metadata/_edit_lock_ = true
 
+[node name="OneWayPlatform" parent="SimpleLevel" instance=ExtResource("1_1nocq")]
+
 [node name="Player" parent="." instance=ExtResource("1_3i2ua")]
-position = Vector2(143, 57)
+position = Vector2(208, 92)

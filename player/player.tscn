@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cums1t8ks6e10"]
+[gd_scene load_steps=10 format=3 uid="uid://cums1t8ks6e10"]
 
 [ext_resource type="Script" uid="uid://c4wekd6vy5dqw" path="res://player/scripts/player.gd" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://swndefxv6ys5" path="res://player/states/idle.gd" id="2_rkbax"]
 [ext_resource type="Script" uid="uid://63mnsuu2wfvq" path="res://player/states/run.gd" id="3_g1dw6"]
 [ext_resource type="Script" uid="uid://bvhf5leq5crj1" path="res://player/states/jump.gd" id="4_qjkh3"]
 [ext_resource type="Script" uid="uid://obry7mfprdf6" path="res://player/states/fall.gd" id="5_g6k8r"]
+[ext_resource type="Script" uid="uid://dfgfpwypf1w2v" path="res://player/states/crouch.gd" id="6_g6k8r"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_kqu6x"]
 size = Vector2(18, 48)
@@ -12,16 +13,31 @@ size = Vector2(18, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oul6g"]
 size = Vector2(18, 48)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g6k8r"]
+size = Vector2(18, 27)
+
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 3
 script = ExtResource("1_oul6g")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -24)
 texture = SubResource("PlaceholderTexture2D_kqu6x")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShapeStand" type="CollisionShape2D" parent="."]
 position = Vector2(0, -24)
 shape = SubResource("RectangleShape2D_oul6g")
+
+[node name="CollisionShapeCrouch" type="CollisionShape2D" parent="."]
+position = Vector2(0, -13.5)
+shape = SubResource("RectangleShape2D_g6k8r")
+disabled = true
+debug_color = Color(1, 1, 0, 0.41960785)
+
+[node name="OneWayPlatformRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(0, 4)
+collision_mask = 2
 
 [node name="States" type="Node" parent="."]
 unique_name_in_owner = true
@@ -41,6 +57,10 @@ script = ExtResource("4_qjkh3")
 [node name="Fall" type="Node" parent="States"]
 unique_name_in_owner = true
 script = ExtResource("5_g6k8r")
+
+[node name="Crouch" type="Node" parent="States"]
+unique_name_in_owner = true
+script = ExtResource("6_g6k8r")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -32.0

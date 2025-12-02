@@ -42,6 +42,6 @@ func physics_process(_delta: float) -> PlayerState :
 		if jump_buffer_timer > 0:
 			return jump
 		return idle
-	player.velocity.x = player.direction.x * player.move_speed
+	player.velocity.x = player.direction.x * player.MOVE_SPEED
 	
 	return null

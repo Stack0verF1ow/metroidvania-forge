@@ -4,10 +4,13 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_stand: CollisionShape2D = $CollisionShapeStand
 @onready var collision_crouch: CollisionShape2D = $CollisionShapeCrouch
-@onready var one_way_platform_ray_cast: RayCast2D = $OneWayPlatformRayCast
+@onready var one_way_platform_ray_cast: ShapeCast2D = $OneWayPlatformRayCast
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 
 const MOVE_SPEED : float = 150
+const JUMP_VELOCITY : float = 450
+const MAX_FALL_VELOCITY := 600
 
 var states : Array[PlayerState]
 var current_state : PlayerState :
@@ -33,6 +36,7 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	velocity.y += gravity * delta * gravity_weight
+	velocity.y = clampf(velocity.y, -1000.0, MAX_FALL_VELOCITY)
 	move_and_slide()
 	change_state( current_state.physics_process(delta) )
 	pass
@@ -54,11 +58,17 @@ func initialize_states() -> void:
 	$Label.text = current_state.name
 	
 func update_direction() -> void:
-	#var prev_direction : Vector2 = direction
+	var prev_direction : Vector2 = direction
 	
 	var x_axis = Input.get_axis("Left", "Right")
 	var y_axis = Input.get_axis("Up", "Down")
 	direction = Vector2(x_axis, y_axis)
+	
+	if direction.x != prev_direction.x :
+		if direction.x < 0:
+			sprite.flip_h = true
+		elif direction.x > 0:
+			sprite.flip_h = false
 	
 func change_state(new_state : PlayerState) -> void:
 	if new_state == null:

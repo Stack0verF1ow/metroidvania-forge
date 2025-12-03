@@ -31,3 +31,7 @@ func process(_delta: float) -> PlayerState:
 
 func physics_process(_delta: float) -> PlayerState : 
 	return null
+
+func set_jump_frame(now: float, a_begin: float, a_end: float, b_begin: float, b_end:float) -> void:
+	var frame : float = remap(now, a_begin, a_end, b_begin, b_end)
+	player.animation_player.seek(frame, true)

@@ -13,6 +13,8 @@ func init() -> void:
 	pass
 	
 func enter() -> void:
+	player.animation_player.play("jump")
+	player.animation_player.pause()
 	player.gravity_weight = FALL_GRAVITY_WEIGHT
 	if player.previous_state == jump:
 		coyote_timer = 0
@@ -33,6 +35,7 @@ func handle_input( event : InputEvent ) -> PlayerState:
 	return null
 
 func process(delta: float) -> PlayerState:
+	set_jump_frame(player.velocity.y, 0.0, player.MAX_FALL_VELOCITY, 0.5, 1.0)
 	coyote_timer -= delta
 	jump_buffer_timer -= delta
 	return null

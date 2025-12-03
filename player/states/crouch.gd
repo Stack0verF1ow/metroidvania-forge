@@ -8,6 +8,7 @@ func init() -> void:
 	pass
 	
 func enter() -> void:
+	player.animation_player.play("crouch")
 	player.collision_stand.disabled = true
 	player.collision_crouch.disabled = false
 	pass
@@ -19,6 +20,7 @@ func exit() -> void:
 
 func handle_input( event : InputEvent) -> PlayerState:
 	if event.is_action_pressed("Jump"):
+		player.one_way_platform_ray_cast.force_shapecast_update()
 		if player.one_way_platform_ray_cast.is_colliding() == true:
 			player.position.y += 4 
 			return fall

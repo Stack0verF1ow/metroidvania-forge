@@ -1,14 +1,14 @@
 class_name PlayerStateJump
 extends PlayerState
 
-const JUMP_VELOCITY : float = 450
-
 func init() -> void:
 	print("init!" + name)
 	pass
 	
 func enter() -> void:
-	player.velocity.y = -JUMP_VELOCITY
+	player.animation_player.play("jump")
+	player.animation_player.pause()
+	player.velocity.y = -player.JUMP_VELOCITY
 	pass
 	
 func exit() -> void:
@@ -20,7 +20,7 @@ func handle_input( event : InputEvent) -> PlayerState:
 	return null
 
 func process(_delta: float) -> PlayerState:
-	
+	set_jump_frame(player.velocity.y, player.JUMP_VELOCITY, 0.0, 0.0, 0.5)
 	return null
 
 func physics_process(_delta: float) -> PlayerState : 

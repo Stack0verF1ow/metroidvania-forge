@@ -19,24 +19,6 @@ height = 24.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_boad6"]
 size = Vector2(16, 4)
 
-[sub_resource type="Animation" id="Animation_boad6"]
-resource_name = "idle"
-length = 0.2
-loop_mode = 1
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="Animation" id="Animation_rgyib"]
 length = 0.001
 tracks/0/type = "value"
@@ -69,11 +51,11 @@ tracks/0/keys = {
 "values": [20, 21, 22, 23]
 }
 
-[sub_resource type="Animation" id="Animation_8t03j"]
-resource_name = "run"
-length = 0.8
+[sub_resource type="Animation" id="Animation_boad6"]
+resource_name = "idle"
+length = 0.2
 loop_mode = 1
-step = 0.1
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -81,10 +63,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [14, 15, 16, 17, 18, 19, 12, 13]
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_2ieo8"]
@@ -103,6 +85,24 @@ tracks/0/keys = {
 "values": [24, 25, 26, 27, 28]
 }
 
+[sub_resource type="Animation" id="Animation_8t03j"]
+resource_name = "run"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [14, 15, 16, 17, 18, 19, 12, 13]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ebec5"]
 _data = {
 &"RESET": SubResource("Animation_rgyib"),
@@ -115,6 +115,7 @@ _data = {
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 0
 collision_mask = 3
+floor_snap_length = 3.0
 script = ExtResource("1_oul6g")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -180,3 +181,5 @@ libraries = {
 &"": SubResource("AnimationLibrary_ebec5")
 }
 autoplay = "idle"
+
+[node name="Camera2D" type="Camera2D" parent="."]

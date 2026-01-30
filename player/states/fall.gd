@@ -24,6 +24,7 @@ func enter() -> void:
 	
 func exit() -> void:
 	player.gravity_weight = 1.0
+	jump_buffer_timer = 0
 	pass
 
 func handle_input( event : InputEvent ) -> PlayerState:

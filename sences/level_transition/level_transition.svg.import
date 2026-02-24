@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bpcnn3c6agt5a"
-path="res://.godot/imported/level_transition.svg-e1d180d386edd2189e34adf212c268b9.ctex"
+path="res://.godot/imported/level_transition.svg-0d78a081b71a7c5a91a2794e8c64ba61.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ch_02_world_building_foundations/level_transition.svg"
-dest_files=["res://.godot/imported/level_transition.svg-e1d180d386edd2189e34adf212c268b9.ctex"]
+source_file="res://sences/level_transition/level_transition.svg"
+dest_files=["res://.godot/imported/level_transition.svg-0d78a081b71a7c5a91a2794e8c64ba61.ctex"]
 
 [params]
 

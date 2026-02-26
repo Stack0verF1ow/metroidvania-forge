@@ -4,7 +4,7 @@ extends PlayerState
 const DECELERATION_RATE : float = 10
 
 func init() -> void:
-	print("init!" + name)
+	#print("init!" + name)
 	pass
 	
 func enter() -> void:

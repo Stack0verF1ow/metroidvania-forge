@@ -7,9 +7,11 @@ size = Vector2(32, 32)
 
 [node name="LevelTransition" type="Node2D"]
 script = ExtResource("1_eoio4")
+location = 1
 
 [node name="Area2D" type="Area2D" parent="."]
 unique_name_in_owner = true
+scale = Vector2(1, 2)
 collision_layer = 0
 collision_mask = 16
 monitorable = false
@@ -17,3 +19,4 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(16, -16)
 shape = SubResource("RectangleShape2D_6gi4d")
+debug_color = Color(0.5790893, 0.89595574, 1.540184e-06, 0.41960785)

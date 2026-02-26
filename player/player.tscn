@@ -112,7 +112,7 @@ _data = {
 &"run": SubResource("Animation_8t03j")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 16
 collision_mask = 3
 floor_snap_length = 3.0

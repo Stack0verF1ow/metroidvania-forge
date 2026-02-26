@@ -23,6 +23,7 @@ var gravity : float = 980
 var gravity_weight : float = 1.0
 
 func _ready() -> void:
+	z_index = 255
 	initialize_states()
 	pass
 

@@ -1,7 +1,7 @@
 class_name PlayerStateRun
 extends PlayerState
 func init() -> void:
-	print("init!" + name)
+	#print("init!" + name)
 	pass
 	
 func enter() -> void:

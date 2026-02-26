@@ -9,7 +9,7 @@ var coyote_timer := 0.0
 var jump_buffer_timer := 0.0
 
 func init() -> void:
-	print("init!" + name)
+	#print("init!" + name)
 	pass
 	
 func enter() -> void:

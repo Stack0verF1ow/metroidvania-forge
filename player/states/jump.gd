@@ -2,7 +2,7 @@ class_name PlayerStateJump
 extends PlayerState
 
 func init() -> void:
-	print("init!" + name)
+	#print("init!" + name)
 	pass
 	
 func enter() -> void:

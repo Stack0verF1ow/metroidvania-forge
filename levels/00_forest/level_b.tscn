@@ -38,6 +38,6 @@ size = 13
 location = 0
 
 [node name="Level_C" parent="LevelTransitions" instance=ExtResource("3_4n0vu")]
-position = Vector2(672, 344)
+position = Vector2(672, 368)
 size = 4
 location = 2

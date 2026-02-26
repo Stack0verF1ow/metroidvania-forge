@@ -43,7 +43,7 @@ func _ready() -> void:
 		push_error("节点名 '%s' 不匹配任何关卡枚举！" % self.name)
 
 	# 原打印代码保留（可选）
-	print(self.name, " -> 目标关卡: ", Game.Level_Number.keys()[target_level])
+	#print(self.name, " -> 目标关卡: ", Game.Level_Number.keys()[target_level])
 
 func apply_area_settings() -> void:
 	area_2d = get_node_or_null("%Area2D")
@@ -68,6 +68,26 @@ func apply_area_settings() -> void:
 			area_2d.scale.y = 1
 			
 
+func get_relative_pos( player_position: Vector2 ) -> Vector2:
+	
+	var relative_postion =  player_position - self.global_position 
+	
+	match location:
+		SIDE.LEFT:
+			relative_postion.x -= 20
+			
+		SIDE.RIGHT:
+			relative_postion.x += 20
+			
+		SIDE.TOP:
+			relative_postion.y += 20
+			
+		SIDE.BOTTOM:
+			relative_postion.y -= 20
+	
+	return relative_postion
+
 func _on_player_entered( player : CharacterBody2D ) -> void:
-	var relative_pos : Vector2 = player.global_position - self.global_position 
+	var relative_pos : Vector2 = get_relative_pos(player.global_position) 
+	#print("玩家位置：" + str(player.global_position) + " 加载点位置：" + str(self.global_position))
 	player_went_out.emit( target_level, relative_pos )

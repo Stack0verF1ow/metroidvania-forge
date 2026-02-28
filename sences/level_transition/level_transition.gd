@@ -19,7 +19,7 @@ extends Node2D
 
 enum SIDE { LEFT, RIGHT, TOP, BOTTOM }
 
-signal player_went_out( target_level_name: Game.Level_Number, relative_pos: Vector2 )
+signal player_went_out( target_level_name: Game.Level_Number, relative_pos: Vector2, transi_dir: String )
 
 #关联节点变量
 @onready var area_2d: Area2D = %Area2D
@@ -74,20 +74,41 @@ func get_relative_pos( player_position: Vector2 ) -> Vector2:
 	
 	match location:
 		SIDE.LEFT:
-			relative_postion.x -= 20
+			relative_postion.x -= 12
 			
 		SIDE.RIGHT:
-			relative_postion.x += 20
+			relative_postion.x += 12
 			
 		SIDE.TOP:
-			relative_postion.y += 20
+			relative_postion.y += 12
 			
 		SIDE.BOTTOM:
-			relative_postion.y -= 20
+			relative_postion.y -= 12
 	
 	return relative_postion
+
+# 控制区域是否可触发,避免频繁触发
+func set_area_enabled(enabled: bool) -> void:
+	area_2d.monitoring = enabled
+
+func get_dir( location: SIDE ) -> String:
+	var dir : String = ""
+	match location:
+		SIDE.LEFT:
+			dir = "left"
+			
+		SIDE.RIGHT:
+			dir = "right"
+			
+		SIDE.TOP:
+			dir = "up"
+			
+		SIDE.BOTTOM:
+			dir = "down"
+	
+	return dir
 
 func _on_player_entered( player : CharacterBody2D ) -> void:
 	var relative_pos : Vector2 = get_relative_pos(player.global_position) 
 	#print("玩家位置：" + str(player.global_position) + " 加载点位置：" + str(self.global_position))
-	player_went_out.emit( target_level, relative_pos )
+	player_went_out.emit( target_level, relative_pos, get_dir(location) )

@@ -1,0 +1,20 @@
+class_name EmoGame
+extends Node
+
+enum ScreenType {
+	GAME_SCREEN,
+}
+
+var current_screen : Screen = null
+var screen_factory := ScreenFactory.new()
+
+func _init() -> void:
+	switch_screen(ScreenType.GAME_SCREEN)
+
+func switch_screen(screen: ScreenType, data: ScreenData = ScreenData.new()) -> void:
+	if current_screen != null :
+		current_screen.queue_free()
+	current_screen = screen_factory.get_fresh_screen(screen)
+	current_screen.setup(self, data)
+	current_screen.screen_transition_requested.connect(switch_screen.bind())
+	call_deferred("add_child", current_screen)

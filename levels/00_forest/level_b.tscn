@@ -41,3 +41,4 @@ location = 0
 position = Vector2(672, 368)
 size = 4
 location = 2
+target_level = 2

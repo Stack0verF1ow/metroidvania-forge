@@ -1,93 +1,78 @@
-@tool # 自定义工具，可在编辑器使用
-
+@tool
 @icon("res://sences/level_transition/level_transition.svg")
 
 class_name LevelTransition
 extends Node2D
 
-#可编辑选项
-@export_range( 2, 12, 1, "or_greater" ) var size : int = 2 :
-	set( value ):
+# 定义这个转场触发器位于关卡的哪一侧。
+enum SIDE { LEFT, RIGHT, TOP, BOTTOM, INIT }
+
+@export_range(2, 12, 1, "or_greater") var size: int = 2:
+	set(value):
 		size = value
 		apply_area_settings()
-	
 
-@export var location : SIDE = SIDE.LEFT :
-	set( value ):
+@export var location: SIDE = SIDE.LEFT:
+	set(value):
 		location = value
 		apply_area_settings()
+		
+@export var target_level : GameScreen.Level_Number
 
-enum SIDE { LEFT, RIGHT, TOP, BOTTOM }
+signal player_went_out(target_level_name: GameScreen.Level_Number, relative_pos: Vector2, transition_side: int)
 
-signal player_went_out( target_level_name: Game.Level_Number, relative_pos: Vector2 )
-
-#关联节点变量
 @onready var area_2d: Area2D = %Area2D
 
-var target_level : Game.Level_Number 
-
+# 运行时绑定玩家进入触发区后的回调。
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
-	
-	area_2d.body_entered.connect( _on_player_entered.bind() )
-	
-	# 根据节点名字自动转换为枚举值
-	var enum_names = Game.Level_Number.keys()
-	var enum_values = Game.Level_Number.values()
-	var index = enum_names.find(self.name)  # 假设节点名与枚举名完全一致
-	
-	if index != -1:
-		target_level = enum_values[index] as Game.Level_Number
-	else:
-		push_error("节点名 '%s' 不匹配任何关卡枚举！" % self.name)
 
-	# 原打印代码保留（可选）
-	#print(self.name, " -> 目标关卡: ", Game.Level_Number.keys()[target_level])
+	area_2d.body_entered.connect(_on_player_entered)
 
+
+# 提供一个显式方法给外部读取当前转场方向，避免直接依赖导出字段。
+func get_transition_side() -> int:
+	return location
+
+
+# 根据方向和尺寸调整触发区缩放，让同一个场景资源能复用为四个边界入口。
 func apply_area_settings() -> void:
 	area_2d = get_node_or_null("%Area2D")
-	if not area_2d :
+	if area_2d == null:
 		return
-	
+
 	match location:
 		SIDE.LEFT:
-			area_2d.scale.x = -1
-			area_2d.scale.y = size
-			
+			area_2d.scale = Vector2(-1.0, size)
 		SIDE.RIGHT:
-			area_2d.scale.x = 1
-			area_2d.scale.y = size
-			
+			area_2d.scale = Vector2(1.0, size)
 		SIDE.TOP:
-			area_2d.scale.x = size
-			area_2d.scale.y = -1
-			
+			area_2d.scale = Vector2(size, -1.0)
 		SIDE.BOTTOM:
-			area_2d.scale.x = size
-			area_2d.scale.y = 1
-			
+			area_2d.scale = Vector2(size, 1.0)
 
-func get_relative_pos( player_position: Vector2 ) -> Vector2:
-	
-	var relative_postion =  player_position - self.global_position 
-	
+
+# 计算玩家进入下一张地图后的相对出生偏移。
+func get_relative_pos(player_position: Vector2) -> Vector2:
+	var relative_position := player_position - global_position
+
 	match location:
 		SIDE.LEFT:
-			relative_postion.x -= 20
-			
+			# 稍微把出生点推出触发区，避免玩家刚落地就再次触发切图。
+			relative_position.x -= 20.0
 		SIDE.RIGHT:
-			relative_postion.x += 20
-			
+			relative_position.x += 20.0
 		SIDE.TOP:
-			relative_postion.y += 20
-			
+			relative_position.y += 20.0
 		SIDE.BOTTOM:
-			relative_postion.y -= 20
-	
-	return relative_postion
+			relative_position.y -= 20.0
 
-func _on_player_entered( player : CharacterBody2D ) -> void:
-	var relative_pos : Vector2 = get_relative_pos(player.global_position) 
-	#print("玩家位置：" + str(player.global_position) + " 加载点位置：" + str(self.global_position))
-	player_went_out.emit( target_level, relative_pos )
+	return relative_position
+
+
+# 把出生偏移和离开方向一起打包，交回给 Level 发起切图。
+func _on_player_entered(player: CharacterBody2D) -> void:
+	print("玩家将进入" + name)
+	var relative_pos := get_relative_pos(player.global_position)
+	player_went_out.emit(target_level, relative_pos, get_transition_side())

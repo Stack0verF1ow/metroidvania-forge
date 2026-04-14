@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b00r0cht0fvit"]
+
+[ext_resource type="Script" uid="uid://c10s6kj6idl08" path="res://sences/game_screen/game_screen.gd" id="1_7ggkl"]
+[ext_resource type="PackedScene" uid="uid://cqbqbta7cbfpx" path="res://sences/game_screen/screen_effect.tscn" id="2_rfa5u"]
+
+[node name="GameScreen" type="Node"]
+script = ExtResource("1_7ggkl")
+
+[node name="ScreenEffect" parent="." instance=ExtResource("2_rfa5u")]
+unique_name_in_owner = true

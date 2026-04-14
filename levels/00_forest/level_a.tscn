@@ -37,3 +37,4 @@ unique_name_in_owner = true
 [node name="Level_B" parent="LevelTransitions" instance=ExtResource("2_3buqk")]
 position = Vector2(928, 256)
 size = 14
+target_level = 1

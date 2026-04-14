@@ -1,6 +1,15 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bvacp7qqx3pdc"]
+[gd_resource type="TileSet" load_steps=6 format=3 uid="uid://bvacp7qqx3pdc"]
 
 [ext_resource type="Texture2D" uid="uid://s5dihfjje48q" path="res://assets/ch_02_world_building_foundations/forgotten_forest_example_tileset.png" id="1_obgfb"]
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_obgfb"]
+tile_data = PackedInt32Array(0, 1507330, 9, 65536, 1507330, 10, 131072, 1507330, 11, 196608, 1507330, 12, 262144, 1507330, 13, 1, 1572866, 9, 65537, 1572866, 10, 131073, 1572866, 11, 196609, 1572866, 12, 262145, 1572866, 13, 327681, 1572866, 14, 393217, 1572866, 15, 65538, 1638402, 10, 131074, 1638402, 11, 196610, 1638402, 12, 262146, 1638402, 13)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_kth5t"]
+tile_data = PackedInt32Array(0, 1638402, 6, 1, 1703938, 6, 65537, 1703938, 7, 131073, 1703938, 8, 196609, 1703938, 9, 524289, 1703938, 14, 589825, 1703938, 15, 2, 1769474, 6, 65538, 1769474, 7, 131074, 1769474, 8, 196610, 1769474, 9, 262146, 1769474, 10, 327682, 1769474, 11, 393218, 1769474, 12, 458754, 1769474, 13, 524290, 1769474, 14, 589826, 1769474, 15, 3, 1835010, 6, 65539, 1835010, 7, 393219, 1835010, 12, 524291, 1835010, 14, 589827, 1835010, 15, 4, 1900546, 6)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_45e6t"]
+tile_data = PackedInt32Array(0, 458754, 12, 65536, 458754, 13, 131072, 458754, 13, 196608, 458754, 13, 262144, 458754, 13, 327680, 458754, 13, 393216, 458754, 14, 1, 524290, 12, 65537, 524290, 13, 131073, 524290, 13, 196609, 524290, 13, 262145, 524290, 13, 327681, 524290, 13, 393217, 524290, 14, 2, 589826, 12, 65538, 589826, 13, 131074, 589826, 13, 196610, 589826, 13, 262146, 589826, 13, 327682, 589826, 13, 393218, 589826, 14)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_obgfb"]
 texture = ExtResource("1_obgfb")
@@ -1223,3 +1232,6 @@ terrain_set_0/terrain_0/color = Color(0.21176471, 0.91764706, 0, 1)
 terrain_set_0/terrain_1/name = "Stone"
 terrain_set_0/terrain_1/color = Color(0.24776903, 0.42895696, 0.7751257, 1)
 sources/2 = SubResource("TileSetAtlasSource_obgfb")
+pattern_0 = SubResource("TileMapPattern_obgfb")
+pattern_1 = SubResource("TileMapPattern_kth5t")
+pattern_2 = SubResource("TileMapPattern_45e6t")

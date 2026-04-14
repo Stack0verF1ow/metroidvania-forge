@@ -38,11 +38,12 @@ func first_load() -> void:
 
 # 切图前先把屏幕盖住；如果有方向，就让遮罩沿该方向滑入屏幕。
 func fade_in(direction: int = LevelTransition.SIDE.INIT) -> void:
-	await _run_transition(direction, Vector2.ZERO, _get_edge_position(direction), 1.0, 0.0, true)
+	await _run_transition(direction, _get_edge_position(direction), Vector2.ZERO, 0.0, 1.0)
 
 # 切图后揭示新关卡；如果有方向，就让遮罩沿同一方向滑出屏幕。
 func fade_out(direction: int = LevelTransition.SIDE.INIT) -> void:
-	await _run_transition(direction, _get_edge_position(direction), Vector2.ZERO, 0.0, 1.0, false)
+	await _run_transition(direction, Vector2.ZERO, _get_edge_position(direction), 1.0, 0.0)
+	mask.visible = false
 
 
 # 抽取两种过渡的公共逻辑：准备遮罩、创建 tween，并按 INIT 或方向位移分支执行。
@@ -51,9 +52,8 @@ func _run_transition(
 	start_position: Vector2,
 	end_position: Vector2,
 	start_alpha: float,
-	end_alpha: float,
-	hide_after: bool
-) -> void:
+	end_alpha: float
+) -> Signal:
 	_stop_active_tween()
 	_prepare_mask()
 
@@ -68,9 +68,7 @@ func _run_transition(
 		_active_tween = create_tween()
 		_active_tween.tween_property(mask, ^"position", end_position, fade_duration)
 
-	await _active_tween.finished
-	if hide_after:
-		mask.visible = false
+	return _active_tween.finished
 
 
 # 在播放动画前，先保证遮罩可见、尺寸正确、颜色正确。

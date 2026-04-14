@@ -22,7 +22,7 @@ func _ready() -> void:
 # 执行完整切图流程：先遮住旧关卡，再替换场景，最后按新关卡入口方向揭幕。
 func switch_level(level: Level_Number, transition_side: LevelTransition.SIDE = LevelTransition.SIDE.INIT, data: LevelData = LevelData.new()) -> void:
 	if current_level != null:
-		screen_effect.fade_out(transition_side)
+		screen_effect.fade_in(transition_side)
 		call_deferred("remove_child", current_level)
 		current_level.queue_free()
 
@@ -31,4 +31,4 @@ func switch_level(level: Level_Number, transition_side: LevelTransition.SIDE = L
 	current_level.level_transition_requested.connect(switch_level)
 	
 	call_deferred("add_child", current_level)
-	screen_effect.fade_in(transition_side)
+	screen_effect.fade_out(transition_side)

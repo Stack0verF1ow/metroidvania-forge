@@ -28,7 +28,8 @@ func _ready() -> void:
 			child.set_area_enabled(false)
 
 	set_player_position()
-
+	
+	#防止重复切换场景
 	await get_tree().create_timer(0.2).timeout
 	for child in level_transitions.get_children():
 		if child is LevelTransition:

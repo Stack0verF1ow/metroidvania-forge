@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=3 uid="uid://bm0y7vuabvbol"]
+
+[ext_resource type="Script" uid="uid://d0ctw3ypsl5ep" path="res://sences/player_hud/player_hud.gd" id="1_0086c"]
+[ext_resource type="Texture2D" uid="uid://dgrx48ytcthak" path="res://assets/ch_03_game_systems/sprites/health_bar_frame.png" id="1_hcubo"]
+
+[sub_resource type="Gradient" id="Gradient_xt2c2"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hcubo"]
+gradient = SubResource("Gradient_xt2c2")
+height = 16
+
+[sub_resource type="Gradient" id="Gradient_0086c"]
+colors = PackedColorArray(0.8627451, 0.34117648, 0.34117648, 1, 0.9246744, 0.4699201, 0.45632643, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_f1kpb"]
+gradient = SubResource("Gradient_0086c")
+height = 16
+
+[node name="PlayerHud" type="CanvasLayer"]
+script = ExtResource("1_0086c")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HPMarginContainer" type="MarginContainer" parent="Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 20)
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 126.0
+offset_bottom = 36.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/HPMarginContainer"]
+layout_mode = 2
+texture = ExtResource("1_hcubo")
+patch_margin_left = 27
+patch_margin_right = 7
+axis_stretch_horizontal = 1
+
+[node name="HPBar" type="TextureProgressBar" parent="Control/HPMarginContainer/NinePatchRect"]
+unique_name_in_owner = true
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 19.0
+offset_top = 6.0
+offset_right = -3.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 50.0
+rounded = true
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_hcubo")
+texture_progress = SubResource("GradientTexture2D_f1kpb")

@@ -1,3 +1,4 @@
+@icon("res://assets/ch_02_world_building_foundations/player_spawn.svg")
 class_name PlayerSpawn
 extends Node2D
 

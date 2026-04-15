@@ -33,9 +33,13 @@ var morph_roll : bool = false
 func _ready() -> void:
 	z_index = 255
 	initialize_states()
+	Messages.player_healed.connect( _on_player_healed )
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("Action"):
+		print("player actiond")
+		Messages.player_interacted.emit( self )
 	change_state( current_state.handle_input(event))
 
 func _process(_delta: float) -> void:
@@ -94,3 +98,7 @@ func change_state(new_state : PlayerState) -> void:
 	states.resize(3)
 	
 	$Label.text = current_state.name
+
+func _on_player_healed( amount: float ) -> void:
+	hp += amount
+	# audio/visual

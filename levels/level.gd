@@ -54,6 +54,7 @@ func get_entry_transition() -> LevelTransition:
 	for child in level_transitions.get_children():
 		var transition := child as LevelTransition
 		if transition != null and transition.target_level == level_data.last_level:
+			print("last level is" + str(level_data.last_level))
 			return transition
 	return null
 
@@ -73,7 +74,6 @@ func set_player_position() -> void:
 	var entry_transition := get_entry_transition()
 	if entry_transition != null:
 		player.global_position = entry_transition.global_position + level_data.relative_position
-
 
 func _on_player_went_out(
 	target_level: GameScreen.Level_Number,

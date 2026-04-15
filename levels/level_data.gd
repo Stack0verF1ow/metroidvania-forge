@@ -1,6 +1,7 @@
 class_name LevelData
 
-var last_level : GameScreen.Level_Number 
+@warning_ignore("int_as_enum_without_cast", "int_as_enum_without_match")
+var last_level : GameScreen.Level_Number = -1
 var relative_position : Vector2 = Vector2.ZERO
 
 static func build() -> LevelData:

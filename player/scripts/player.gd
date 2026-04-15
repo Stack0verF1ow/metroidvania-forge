@@ -22,6 +22,14 @@ var direction := Vector2.ZERO
 var gravity : float = 980
 var gravity_weight : float = 1.0
 
+
+var hp : float = 20
+var max_hp : float = 20
+var dash : bool = false
+var double_jump : bool = false
+var ground_slam : bool = false
+var morph_roll : bool = false
+
 func _ready() -> void:
 	z_index = 255
 	initialize_states()

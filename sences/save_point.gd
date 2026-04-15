@@ -12,9 +12,11 @@ func _ready()-> void:
 func _on_player_entered( _n :Node2D )-> void:
 	print("player come in")
 	Messages.player_interacted.connect( _on_player_interacted )
+	Messages.input_hints_changed.emit( "interact" )
 	
 func _on_player_exited( _n:Node2D )-> void:
 	Messages.player_interacted.disconnect( _on_player_interacted )
+	Messages.input_hints_changed.emit( "" )
 
 func _on_player_interacted( _player : Player ) -> void:
 	Messages.player_healed.emit( 999 )

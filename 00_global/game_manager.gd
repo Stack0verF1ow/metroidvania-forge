@@ -17,13 +17,22 @@ func save_game() -> void:
 	_ensure_current_run()
 	_capture_player_state()
 
-	if not DataManager.save_runtime(current_run, get_file_name()):
+	if not DataManager.save_runtime(current_run, get_file_name(current_run.current_slot)):
 		push_error("Failed to save runtime data.")
 
+func create_new_game_save( slot : int ) -> void:
+	var new_run := RunTime.create_new()
+	if not DataManager.save_runtime( new_run , get_file_name(slot)):
+		push_error("Failed to create new save.")
+		
+	current_run = new_run
+	runtime_loaded.emit( current_run.level_num )
+	restore_loaded_player()
+	
 
 ## 从磁盘恢复运行态，并通知 GameScreen 按新数据刷新。
-func load_game() -> void:
-	current_run = DataManager.load_runtime( get_file_name() )
+func load_game( slot : int ) -> void:
+	current_run = DataManager.load_runtime( get_file_name(slot) )
 	runtime_loaded.emit( current_run.level_num )
 	restore_loaded_player()
 
@@ -60,5 +69,8 @@ func _ensure_current_run() -> void:
 		current_run = DataManager.create_new_runtime()
 
 # 查找存档槽位
-func get_file_name() -> String:
-	return "user://" + SLOTS[current_run.current_slot]
+func get_file_name( slot : int ) -> String:
+	return "user://" + SLOTS[slot]
+
+func save_file_exists( slot : int ) -> bool:
+	return FileAccess.file_exists( get_file_name(slot) )

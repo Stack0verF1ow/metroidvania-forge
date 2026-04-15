@@ -5,6 +5,7 @@ var screens : Dictionary
 func _init() -> void:
 	screens = {
 		EmoGame.ScreenType.GAME_SCREEN : preload("res://sences/game_screen/game_screen.tscn"),
+		EmoGame.ScreenType.TITLE_SCREEN : preload("res://sences/title_screen/title_screen.tscn")
 	}
 
 func get_fresh_screen(screen: EmoGame.ScreenType) -> Screen:

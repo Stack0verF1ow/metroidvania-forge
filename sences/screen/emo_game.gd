@@ -3,13 +3,14 @@ extends Node
 
 enum ScreenType {
 	GAME_SCREEN,
+	TITLE_SCREEN,
 }
 
 var current_screen : Screen = null
 var screen_factory := ScreenFactory.new()
 
 func _init() -> void:
-	switch_screen(ScreenType.GAME_SCREEN)
+	switch_screen(ScreenType.TITLE_SCREEN)
 
 func switch_screen(screen: ScreenType, data: ScreenData = ScreenData.new()) -> void:
 	if current_screen != null :

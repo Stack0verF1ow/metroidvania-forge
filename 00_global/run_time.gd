@@ -85,7 +85,7 @@ func remember_level(new_level: GameScreen.Level_Number) -> void:
 
 
 ## 从玩家节点抓取需要持久化的运行数据。
-func capture_player(player: Player) -> void:
+func capture_player(player: Node) -> void:
 	player_position = player.global_position
 	hp = player.hp
 	max_hp = player.max_hp
@@ -96,7 +96,7 @@ func capture_player(player: Player) -> void:
 
 
 ## 将读档后的运行数据重新应用到玩家节点。
-func apply_to_player(player: Player) -> void:
+func apply_to_player(player: Node) -> void:
 	player.global_position = player_position
 	player.hp = hp
 	player.max_hp = max_hp

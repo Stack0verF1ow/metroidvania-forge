@@ -39,6 +39,14 @@ func _ready() -> void:
 	if label != null:
 		label.visible = Engine.is_editor_hint()
 
+	_connect_game_manager_signal()
+	refresh_discovery_visibility()
+
+
+## 在节点进入树后订阅 GameManager 的探索状态变化，
+## 这样切关或读档后不需要重新创建暂停菜单也能刷新当前节点显示状态。
+func _exit_tree() -> void:
+	_disconnect_game_manager_signal()
 
 ## 从关卡场景中读取边界和出口数据，并同步到当前缩略图节点。
 func update_node() -> void:
@@ -210,3 +218,101 @@ func _clamp_vertical_offset(offset: float) -> float:
 ## 把横向入口偏移限制在可见范围内，避免入口块超出房间边界。
 func _clamp_horizontal_offset(offset: float) -> float:
 	return clampf(offset, EDGE_PADDING, maxf(EDGE_PADDING, size.x - EDGE_PADDING))
+
+
+## 按当前运行时已发现的区域列表刷新节点显示状态；
+## 编辑器里始终显示，避免摆放暂停地图时看不到节点。
+func refresh_discovery_visibility() -> void:
+	if Engine.is_editor_hint():
+		visible = true
+		return
+
+	var game_manager := _get_game_manager()
+	if game_manager == null:
+		return
+
+	visible = game_manager.is_area_discovered(linked_level)
+
+
+func display_player_location() -> void:
+	var game_manager := _get_game_manager()
+	if game_manager == null:
+		return
+	if game_manager.current_run == null:
+		return
+	if game_manager.current_run.level_num != linked_level:
+		return
+
+	var player_indicator := _get_player_indicator()
+	if player_indicator == null:
+		return
+
+	var scene_instance = _instantiate_linked_scene()
+	if scene_instance == null:
+		return
+
+	var level_bounds := _find_level_bounds(scene_instance)
+	if level_bounds == null:
+		scene_instance.free()
+		return
+
+	var player_world_position := _get_player_world_position(game_manager)
+	var player_local_position := player_world_position - level_bounds.global_position
+	var preview_position := Vector2(
+		clampf(player_local_position.x / SCALE_FACTOR, 0.0, size.x),
+		clampf(player_local_position.y / SCALE_FACTOR, 0.0, size.y)
+	)
+
+	player_indicator.position = position + preview_position
+	player_indicator.visible = true
+	scene_instance.free()
+
+
+## 统一从场景树获取自动加载的 GameManager，避免脚本直接依赖全局名解析。
+func _get_game_manager() -> Node:
+	return get_tree().root.get_node_or_null("GameManager")
+
+
+## 获取暂停地图上的共享玩家指示器；
+## 它和各个 MapNode 是兄弟节点，因此需要从父节点上查找。
+func _get_player_indicator() -> Control:
+	var map_root := get_parent()
+	if map_root == null:
+		return null
+
+	return map_root.get_node_or_null("PlayerIndicator") as Control
+
+
+## 优先读取场景内真实玩家的位置，保证打开暂停菜单时使用的是最新坐标；
+## 若当前测试或特殊场景中没有玩家节点，则回退到运行时存档里的 player_position。
+func _get_player_world_position(game_manager: Node) -> Vector2:
+	var player = get_tree().get_first_node_in_group("Player")
+	if player != null:
+		return player.global_position
+
+	return game_manager.current_run.player_position
+
+
+## 连接 GameManager 的探索状态变化信号，避免 discovered_areas 更新后当前节点仍停留在旧显示状态。
+func _connect_game_manager_signal() -> void:
+	var game_manager := _get_game_manager()
+	if game_manager == null:
+		return
+
+	if not game_manager.is_connected("discovered_areas_changed", _on_discovered_areas_changed):
+		game_manager.connect("discovered_areas_changed", _on_discovered_areas_changed)
+
+
+## 在节点离树时断开信号，避免旧的 MapNode 实例残留回调。
+func _disconnect_game_manager_signal() -> void:
+	var game_manager := _get_game_manager()
+	if game_manager == null:
+		return
+
+	if game_manager.is_connected("discovered_areas_changed", _on_discovered_areas_changed):
+		game_manager.disconnect("discovered_areas_changed", _on_discovered_areas_changed)
+
+
+## 收到探索区域变化后重新计算当前缩略节点是否可见。
+func _on_discovered_areas_changed() -> void:
+	refresh_discovery_visibility()

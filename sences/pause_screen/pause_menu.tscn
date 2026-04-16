@@ -1,10 +1,61 @@
-[gd_scene load_steps=4 format=3 uid="uid://dq6xqb4e7cojv"]
+[gd_scene load_steps=9 format=3 uid="uid://dq6xqb4e7cojv"]
 
 [ext_resource type="Script" uid="uid://cc5seihcwv5uo" path="res://sences/pause_screen/pause_menu.gd" id="1_45mdo"]
 [ext_resource type="PackedScene" uid="uid://dde7uyx2xmlfw" path="res://sences/pause_screen/map_node.tscn" id="2_m0dfq"]
 
 [sub_resource type="FontVariation" id="FontVariation_kxxxp"]
 spacing_glyph = 5
+
+[sub_resource type="Gradient" id="Gradient_m0dfq"]
+offsets = PackedFloat32Array(0, 0.52666664, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.31332874, 0.48840815, 0.9999768, 0.47333336, 0.23137255, 0.45882353, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ct606"]
+gradient = SubResource("Gradient_m0dfq")
+width = 5
+height = 5
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.1)
+
+[sub_resource type="Animation" id="Animation_m0dfq"]
+resource_name = "default"
+length = 0.8
+loop_mode = 2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.15686275, 0.27058825, 1, 0.5529412)]
+}
+
+[sub_resource type="Animation" id="Animation_ct606"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ciset"]
+_data = {
+&"RESET": SubResource("Animation_ct606"),
+&"default": SubResource("Animation_m0dfq")
+}
 
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
@@ -101,7 +152,6 @@ offset_left = 51.0
 offset_top = 53.0
 offset_right = 74.0
 offset_bottom = 62.0
-linked_level = 0
 entrances_right = Array[float]([6.4])
 
 [node name="MapNode2" parent="PauseMenu/Map" instance=ExtResource("2_m0dfq")]
@@ -137,6 +187,28 @@ offset_right = 99.0
 offset_bottom = 76.0
 linked_level = 2
 entrances_top = Array[float]([16.0])
+
+[node name="PlayerIndicator" type="Control" parent="PauseMenu/Map"]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 55.0
+offset_top = 59.0
+offset_right = 55.0
+offset_bottom = 59.0
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenu/Map/PlayerIndicator"]
+layout_mode = 0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+texture = SubResource("GradientTexture2D_ct606")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PauseMenu/Map/PlayerIndicator"]
+libraries = {
+&"": SubResource("AnimationLibrary_ciset")
+}
+autoplay = "default"
 
 [node name="SystemMenuButton" type="Button" parent="PauseMenu"]
 unique_name_in_owner = true

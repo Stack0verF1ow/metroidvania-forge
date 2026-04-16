@@ -1,6 +1,7 @@
 extends Node
 
 signal runtime_loaded(new_level_num: GameScreen.Level_Number)
+signal discovered_areas_changed
 
 const SLOTS: Array[String] = [
 	"save_01.sav", "save_02.sav", "save_03.sav",
@@ -31,6 +32,7 @@ func create_new_game_save(slot: int) -> void:
 		push_error("Failed to create new save.")
 
 	current_run = new_run
+	discovered_areas_changed.emit()
 	runtime_loaded.emit(current_run.level_num)
 	restore_loaded_player()
 
@@ -39,6 +41,7 @@ func create_new_game_save(slot: int) -> void:
 func load_game(slot: int) -> void:
 	current_run = DataManager.load_runtime(get_file_name(slot))
 	current_run.current_slot = slot
+	discovered_areas_changed.emit()
 	runtime_loaded.emit(current_run.level_num)
 	restore_loaded_player()
 
@@ -47,6 +50,7 @@ func load_game(slot: int) -> void:
 func set_current_level(new_level: GameScreen.Level_Number) -> void:
 	_ensure_current_run()
 	current_run.remember_level(new_level)
+	discovered_areas_changed.emit()
 
 
 ## 把读档后的运行态重新应用到玩家节点。
@@ -84,5 +88,5 @@ func get_file_name(slot: int) -> String:
 func save_file_exists(slot: int) -> bool:
 	return FileAccess.file_exists(get_file_name(slot))
 
-func is_area_discovered( scene_uid: String ) -> void:
-	return current_run.discovered_areas.has( scene_uid )
+func is_area_discovered( level_num: GameScreen.Level_Number ) -> bool:
+	return current_run.discovered_areas.has( level_num )

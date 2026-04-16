@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dq6xqb4e7cojv"]
+[gd_scene load_steps=4 format=3 uid="uid://dq6xqb4e7cojv"]
 
 [ext_resource type="Script" uid="uid://cc5seihcwv5uo" path="res://sences/pause_screen/pause_menu.gd" id="1_45mdo"]
+[ext_resource type="PackedScene" uid="uid://dde7uyx2xmlfw" path="res://sences/pause_screen/map_node.tscn" id="2_m0dfq"]
 
 [sub_resource type="FontVariation" id="FontVariation_kxxxp"]
 spacing_glyph = 5
@@ -92,6 +93,51 @@ offset_right = 472.0
 offset_bottom = 184.0
 mouse_filter = 2
 
+[node name="MapNode" parent="PauseMenu/Map" instance=ExtResource("2_m0dfq")]
+modulate = Color(4.740879e-06, 0.39970973, 0.025868064, 1)
+custom_minimum_size = Vector2(23, 9)
+layout_mode = 0
+offset_left = 51.0
+offset_top = 53.0
+offset_right = 74.0
+offset_bottom = 62.0
+linked_scene = "uid://cilmdg5tpbdkk"
+entrances_right = Array[float]([6.4])
+
+[node name="MapNode2" parent="PauseMenu/Map" instance=ExtResource("2_m0dfq")]
+modulate = Color(4.740879e-06, 0.39970973, 0.025868064, 1)
+custom_minimum_size = Vector2(23, 9)
+layout_mode = 0
+offset_left = 76.0
+offset_top = 53.0
+offset_right = 99.0
+offset_bottom = 62.0
+linked_scene = "uid://v1ce1yn1n3rb"
+entrances_bottom = Array[float]([16.8])
+entrances_left = Array[float]([7.0])
+
+[node name="MapNode3" parent="PauseMenu/Map" instance=ExtResource("2_m0dfq")]
+modulate = Color(0.9993908, 0.3370284, 0.49380052, 1)
+custom_minimum_size = Vector2(23, 9)
+layout_mode = 0
+offset_left = 101.0
+offset_top = 53.0
+offset_right = 124.0
+offset_bottom = 62.0
+linked_scene = "uid://353sr3byvk8m"
+entrances_right = Array[float]([6.4])
+
+[node name="MapNode4" parent="PauseMenu/Map" instance=ExtResource("2_m0dfq")]
+modulate = Color(0.15294118, 0.3254902, 0.5803922, 1)
+custom_minimum_size = Vector2(23, 9)
+layout_mode = 0
+offset_left = 76.0
+offset_top = 67.0
+offset_right = 99.0
+offset_bottom = 76.0
+linked_scene = "uid://dbw4n35k840da"
+entrances_top = Array[float]([16.0])
+
 [node name="SystemMenuButton" type="Button" parent="PauseMenu"]
 unique_name_in_owner = true
 layout_mode = 1
@@ -110,6 +156,7 @@ text = "System"
 
 [node name="System" type="Control" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

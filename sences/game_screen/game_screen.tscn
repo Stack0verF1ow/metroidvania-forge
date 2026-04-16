@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://b00r0cht0fvit"]
+[gd_scene load_steps=6 format=3 uid="uid://b00r0cht0fvit"]
 
 [ext_resource type="Script" uid="uid://c10s6kj6idl08" path="res://sences/game_screen/game_screen.gd" id="1_7ggkl"]
 [ext_resource type="PackedScene" uid="uid://cqbqbta7cbfpx" path="res://sences/game_screen/screen_effect.tscn" id="2_rfa5u"]
 [ext_resource type="PackedScene" uid="uid://cums1t8ks6e10" path="res://player/player.tscn" id="3_hdhd5"]
 [ext_resource type="PackedScene" uid="uid://bm0y7vuabvbol" path="res://sences/player_hud/player_hud.tscn" id="4_uyg4x"]
+[ext_resource type="PackedScene" uid="uid://dq6xqb4e7cojv" path="res://sences/pause_screen/pause_menu.tscn" id="5_cc6kr"]
 
 [node name="GameScreen" type="Node"]
 script = ExtResource("1_7ggkl")
@@ -15,3 +16,7 @@ unique_name_in_owner = true
 position = Vector2(457, 124)
 
 [node name="PlayerHud" parent="." instance=ExtResource("4_uyg4x")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("5_cc6kr")]
+unique_name_in_owner = true
+visible = false

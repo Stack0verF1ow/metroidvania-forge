@@ -1,0 +1,60 @@
+class_name PauseMenu
+extends CanvasLayer
+
+@onready var pause_menu: Control = %PauseMenu
+@onready var system: Control = %System
+@onready var system_menu_button: Button = %SystemMenuButton
+@onready var back_to_map_button: Button = %BackToMapButton
+@onready var back_to_title_button: Button = %BackToTitleButton
+@onready var music_slider: HSlider = %MusicSlider
+@onready var sfx_slider: HSlider = %SFXSlider
+@onready var ui_slider: HSlider = %UISlider
+
+
+## 初始化暂停菜单，并绑定系统菜单入口与系统菜单内部按钮。
+func _ready() -> void:
+	show_pause_menu()
+	system_menu_button.pressed.connect(show_system_menu)
+	setup_system_menu()
+
+
+## 处理暂停键开关，让暂停菜单在暂停状态下也能重新关闭。
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("Pause"):
+		get_tree().paused = not get_tree().paused
+		visible = not visible
+	
+	if pause_menu.visible == true:
+		if event.is_action_pressed("Right") or event.is_action_pressed("Down"):
+			system_menu_button.grab_focus()
+
+
+## 显示主暂停菜单，并隐藏系统设置面板。
+func show_pause_menu() -> void:
+	pause_menu.visible = true
+	system.visible = false
+
+
+## 显示系统设置面板，并隐藏主暂停菜单。
+func show_system_menu() -> void:
+	pause_menu.visible = false
+	system.visible = true
+	back_to_map_button.grab_focus()
+
+
+## 绑定系统菜单中的返回地图和返回标题按钮事件。
+func setup_system_menu() -> void:
+	back_to_map_button.pressed.connect(show_pause_menu)
+	back_to_title_button.pressed.connect(_on_back_to_title_pressed)
+
+
+## 向全局消息节点发送“返回标题”事件，由 GameScreen 统一执行切屏流程。
+func _on_back_to_title_pressed() -> void:
+	var messages := _get_messages()
+	if messages != null:
+		messages.emit_signal("back_to_title")
+
+
+## 统一从场景树获取自动加载的 Messages，避免界面脚本直接依赖全局名解析。
+func _get_messages() -> Node:
+	return get_tree().root.get_node_or_null("Messages")

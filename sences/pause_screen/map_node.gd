@@ -4,12 +4,12 @@
 class_name MapNode
 extends Control
 
-@export_file("*.tscn") var linked_scene: String = "":
+@export var linked_level: GameScreen.Level_Number = GameScreen.Level_Number.Level_A:
 	set(value):
-		if linked_scene == value:
+		if linked_level == value:
 			return
 
-		linked_scene = value
+		linked_level = value
 		if Engine.is_editor_hint():
 			update_node()
 
@@ -29,8 +29,10 @@ const EDGE_PADDING: float = 2.0
 const BLOCK_THICKNESS: float = 1.0
 const BLOCK_LENGTH: float = 3.0
 
+var level_factory := LevelFactory.new()
 
-## 初始化缩略关卡节点，并在进入树后立刻按 linked_scene 刷新预览数据。
+
+## 初始化缩略关卡节点，并在进入树后立刻按 linked_level 刷新预览数据。
 func _ready() -> void:
 	update_node()
 
@@ -64,16 +66,16 @@ func update_node() -> void:
 	create_transition_blocks()
 
 
-## 实例化 linked_scene 指向的关卡场景；加载失败时返回 null。
+## 通过 LevelFactory 把关卡编号解析成场景并实例化；失败时返回 null。
 func _instantiate_linked_scene() -> Node:
-	if linked_scene.is_empty() or not ResourceLoader.exists(linked_scene):
+	if not level_factory.level_paths.has(linked_level):
 		return null
 
-	var packed_scene := ResourceLoader.load(linked_scene) as PackedScene
-	if packed_scene == null:
+	var level_scene := level_factory.get_level_scene(linked_level)
+	if level_scene == null:
 		return null
 
-	return packed_scene.instantiate()
+	return level_scene.instantiate()
 
 
 ## 把关卡实际尺寸按统一比例缩放到暂停菜单用的缩略尺寸。
@@ -149,7 +151,7 @@ func create_entrance_data(transitions: Array[LevelTransition], level_origin: Vec
 				entrances_top.append(_clamp_horizontal_offset(local_position.x / SCALE_FACTOR))
 
 
-## 重新生成四边的入口块，保证 linked_scene 刷新后不会残留旧出口。
+## 重新生成四边的入口块，保证 linked_level 刷新后不会残留旧出口。
 func create_transition_blocks() -> void:
 	if transition_blocks == null:
 		transition_blocks = get_node_or_null("%TransitionBlocks")

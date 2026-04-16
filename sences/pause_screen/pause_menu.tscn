@@ -101,7 +101,7 @@ offset_left = 51.0
 offset_top = 53.0
 offset_right = 74.0
 offset_bottom = 62.0
-linked_scene = "uid://cilmdg5tpbdkk"
+linked_level = 0
 entrances_right = Array[float]([6.4])
 
 [node name="MapNode2" parent="PauseMenu/Map" instance=ExtResource("2_m0dfq")]
@@ -112,7 +112,7 @@ offset_left = 76.0
 offset_top = 53.0
 offset_right = 99.0
 offset_bottom = 62.0
-linked_scene = "uid://v1ce1yn1n3rb"
+linked_level = 1
 entrances_bottom = Array[float]([16.8])
 entrances_left = Array[float]([7.0])
 
@@ -124,7 +124,7 @@ offset_left = 101.0
 offset_top = 53.0
 offset_right = 124.0
 offset_bottom = 62.0
-linked_scene = "uid://353sr3byvk8m"
+linked_level = 3
 entrances_right = Array[float]([6.4])
 
 [node name="MapNode4" parent="PauseMenu/Map" instance=ExtResource("2_m0dfq")]
@@ -135,7 +135,7 @@ offset_left = 76.0
 offset_top = 67.0
 offset_right = 99.0
 offset_bottom = 76.0
-linked_scene = "uid://dbw4n35k840da"
+linked_level = 2
 entrances_top = Array[float]([16.0])
 
 [node name="SystemMenuButton" type="Button" parent="PauseMenu"]

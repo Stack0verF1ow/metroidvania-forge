@@ -83,3 +83,6 @@ func get_file_name(slot: int) -> String:
 ## 检查指定槽位是否已经存在存档文件。
 func save_file_exists(slot: int) -> bool:
 	return FileAccess.file_exists(get_file_name(slot))
+
+func is_area_discovered( scene_uid: String ) -> void:
+	return current_run.discovered_areas.has( scene_uid )

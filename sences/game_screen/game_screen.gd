@@ -8,6 +8,7 @@ enum Level_Number {
 	Level_A,
 	Level_B,
 	Level_C,
+	Level_D,
 }
 
 var current_level: Level = null

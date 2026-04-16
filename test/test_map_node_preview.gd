@@ -17,7 +17,7 @@ func _run() -> void:
 	var map_node = map_node_scene.instantiate() as MapNode
 	var transition_blocks = map_node.get_node("%TransitionBlocks") as Control
 
-	map_node.linked_scene = "res://levels/00_forest/level_b.tscn"
+	map_node.linked_level = GameScreen.Level_Number.Level_B
 	map_node.update_node()
 
 	if map_node.size != Vector2(23, 9):
@@ -41,7 +41,7 @@ func _run() -> void:
 		_done = true
 		return
 
-	map_node.linked_scene = "res://levels/00_forest/level_c.tscn"
+	map_node.linked_level = GameScreen.Level_Number.Level_C
 	map_node.update_node()
 
 	if map_node.entrances_top.size() != 1:
@@ -50,8 +50,20 @@ func _run() -> void:
 		print("ASSERT FAIL: level_c refresh should clear stale entrances, got left=%s right=%s bottom=%s" % [map_node.entrances_left.size(), map_node.entrances_right.size(), map_node.entrances_bottom.size()])
 	elif transition_blocks.get_child_count() != 1:
 		print("ASSERT FAIL: level_c refresh should leave one transition block, got %s" % [transition_blocks.get_child_count()])
+		_done = true
+		return
+
+	map_node.linked_level = GameScreen.Level_Number.Level_D
+	map_node.update_node()
+
+	if map_node.entrances_right.size() != 1:
+		print("ASSERT FAIL: level_d should expose one right entrance after refresh, got %s" % [map_node.entrances_right.size()])
+	elif map_node.entrances_left.size() != 0 or map_node.entrances_top.size() != 0 or map_node.entrances_bottom.size() != 0:
+		print("ASSERT FAIL: level_d refresh should clear stale entrances, got left=%s top=%s bottom=%s" % [map_node.entrances_left.size(), map_node.entrances_top.size(), map_node.entrances_bottom.size()])
+	elif transition_blocks.get_child_count() != 1:
+		print("ASSERT FAIL: level_d refresh should leave one transition block, got %s" % [transition_blocks.get_child_count()])
 	else:
-		print("ASSERT PASS: MapNode maps top/bottom entrances using the room-edge positions correctly")
+		print("ASSERT PASS: MapNode resolves linked_level through LevelFactory and refreshes previews correctly")
 
 	map_node.free()
 	_done = true

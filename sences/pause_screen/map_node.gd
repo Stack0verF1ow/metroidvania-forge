@@ -30,6 +30,8 @@ const BLOCK_THICKNESS: float = 1.0
 const BLOCK_LENGTH: float = 3.0
 
 var level_factory := LevelFactory.new()
+var cached_level_origin: Vector2 = Vector2.ZERO
+var has_cached_level_origin: bool = false
 
 
 ## 初始化缩略关卡节点，并在进入树后立刻按 linked_level 刷新预览数据。
@@ -54,6 +56,7 @@ func update_node() -> void:
 	var level_origin := Vector2.ZERO
 	var transitions: Array[LevelTransition] = []
 	var scene_instance = _instantiate_linked_scene()
+	has_cached_level_origin = false
 
 	if scene_instance != null:
 		_update_node_label(scene_instance)
@@ -62,6 +65,10 @@ func update_node() -> void:
 		if level_bounds != null:
 			level_size = Vector2(level_bounds.width, level_bounds.height)
 			level_origin = level_bounds.global_position
+			# 缓存关卡边界原点，供暂停菜单再次打开时直接复用。
+			# 这样 display_player_location() 就不需要重复实例化关卡场景。
+			cached_level_origin = level_origin
+			has_cached_level_origin = true
 
 		transitions = _collect_level_transitions(scene_instance)
 	else:
@@ -234,6 +241,8 @@ func refresh_discovery_visibility() -> void:
 	visible = game_manager.is_area_discovered(linked_level)
 
 
+## 按当前运行时玩家坐标更新共享 PlayerIndicator 的位置；
+## 这里只消费 update_node() 预先缓存的关卡原点，不再重复加载关卡场景。
 func display_player_location() -> void:
 	var game_manager := _get_game_manager()
 	if game_manager == null:
@@ -242,22 +251,15 @@ func display_player_location() -> void:
 		return
 	if game_manager.current_run.level_num != linked_level:
 		return
+	if not has_cached_level_origin:
+		return
 
 	var player_indicator := _get_player_indicator()
 	if player_indicator == null:
 		return
 
-	var scene_instance = _instantiate_linked_scene()
-	if scene_instance == null:
-		return
-
-	var level_bounds := _find_level_bounds(scene_instance)
-	if level_bounds == null:
-		scene_instance.free()
-		return
-
 	var player_world_position := _get_player_world_position(game_manager)
-	var player_local_position := player_world_position - level_bounds.global_position
+	var player_local_position := player_world_position - cached_level_origin
 	var preview_position := Vector2(
 		clampf(player_local_position.x / SCALE_FACTOR, 0.0, size.x),
 		clampf(player_local_position.y / SCALE_FACTOR, 0.0, size.y)
@@ -265,7 +267,6 @@ func display_player_location() -> void:
 
 	player_indicator.position = position + preview_position
 	player_indicator.visible = true
-	scene_instance.free()
 
 
 ## 统一从场景树获取自动加载的 GameManager，避免脚本直接依赖全局名解析。

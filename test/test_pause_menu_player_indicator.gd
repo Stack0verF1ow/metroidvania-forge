@@ -12,7 +12,7 @@ func _process(_delta: float) -> bool:
 
 
 ## 验证重新打开暂停菜单时，PlayerIndicator 会按当前玩家位置刷新到正确的缩略图坐标，
-## 而不是停留在 PauseMenu 初次实例化时的旧位置。
+## 并且不会再次依赖 LevelFactory 重新实例化关卡场景。
 func _run() -> void:
 	var game_manager = root.get_node_or_null("GameManager")
 	if game_manager == null:
@@ -59,17 +59,18 @@ func _run() -> void:
 
 	pause_menu.visible = false
 	game_manager.current_run.player_position = second_player_position
+	map_node_b.level_factory.level_paths.erase(GameScreen.Level_Number.Level_B)
 	pause_menu.visible = true
 	pause_menu.show_pause_menu()
 	await process_frame
 
 	var second_expected: Vector2 = map_node_b.position + (second_player_position - level_origin) / map_node_b.SCALE_FACTOR
 	if not _is_vector_close(indicator.position, second_expected):
-		print("ASSERT FAIL: reopening PauseMenu should refresh PlayerIndicator position, got %s expected %s" % [indicator.position, second_expected])
+		print("ASSERT FAIL: reopening PauseMenu should refresh PlayerIndicator from cached preview data, got %s expected %s" % [indicator.position, second_expected])
 	elif _is_vector_close(indicator.position, first_expected):
 		print("ASSERT FAIL: PlayerIndicator stayed at the stale position after reopening PauseMenu")
 	else:
-		print("ASSERT PASS: opening PauseMenu refreshes PlayerIndicator to the latest player position")
+		print("ASSERT PASS: opening PauseMenu refreshes PlayerIndicator from cached preview data")
 
 	pause_menu.free()
 	_done = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://cilmdg5tpbdkk"]
+[gd_scene load_steps=9 format=4 uid="uid://cilmdg5tpbdkk"]
 
 [ext_resource type="TileSet" uid="uid://bvacp7qqx3pdc" path="res://levels/forgotten_forest.tres" id="1_epg5w"]
 [ext_resource type="Script" uid="uid://btq3hxg8v8rts" path="res://levels/level.gd" id="1_xo1gp"]
@@ -6,6 +6,8 @@
 [ext_resource type="Script" uid="uid://moq7u6mvv81x" path="res://sences/level_bounds/level_bounds.gd" id="2_4lp5p"]
 [ext_resource type="PackedScene" uid="uid://d1k4tnwfe8d32" path="res://sences/player_spawn.tscn" id="5_05krl"]
 [ext_resource type="PackedScene" uid="uid://bl1i4c1stiubv" path="res://sences/save_point.tscn" id="6_kroic"]
+[ext_resource type="PackedScene" uid="uid://bqx4mrpcbc2bf" path="res://sences/Door/door.tscn" id="7_u65nq"]
+[ext_resource type="PackedScene" uid="uid://bpk8vsdqes4si" path="res://sences/Door/switch.tscn" id="8_1ukeu"]
 
 [node name="Level_A" type="Node2D"]
 script = ExtResource("1_xo1gp")
@@ -46,3 +48,9 @@ position = Vector2(211, 225)
 
 [node name="SavePoint" parent="." instance=ExtResource("6_kroic")]
 position = Vector2(426, 323)
+
+[node name="Door" parent="." instance=ExtResource("7_u65nq")]
+position = Vector2(843, 256)
+
+[node name="Switch" parent="Door" instance=ExtResource("8_1ukeu")]
+position = Vector2(-77, 7)

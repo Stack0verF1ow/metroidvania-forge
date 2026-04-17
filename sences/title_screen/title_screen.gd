@@ -21,6 +21,9 @@ extends Screen
 
 ## 绑定标题界面上的菜单按钮和动画回调。
 func _ready() -> void:
+	var audio := _get_audio()
+	if audio != null:
+		audio.stop_music()
 	new_game_button.pressed.connect(show_new_game_menu)
 	load_game_button.pressed.connect(show_load_game_menu)
 
@@ -105,8 +108,8 @@ func _on_load_game_pressed(slot: int) -> void:
 
 func setup_button_audio() -> void :
 	for c in find_children("*", "Button"):
-		c.focus_entered.connect( Audio.play_ui.bind( Audio.Sound.UI_FOCUS ) )
-		c.pressed.connect( Audio.play_ui.bind( Audio.Sound.UI_SELECT ) )
+		c.focus_entered.connect( _play_focus_audio )
+		c.pressed.connect( _play_select_audio )
 
 ## 标题动画播完开场段后切到循环动画。
 func _on_animation_finshed(anim_name: String) -> void:
@@ -117,3 +120,22 @@ func _on_animation_finshed(anim_name: String) -> void:
 ## 统一从场景树中获取自动加载的游戏管理器，兼容脚本测试环境。
 func _get_game_manager() -> Node:
 	return get_tree().root.get_node_or_null("GameManager")
+
+
+## 统一从场景树中获取全局 Audio 自动加载。
+func _get_audio() -> Node:
+	return get_tree().root.get_node_or_null("Audio")
+
+
+## 播放按钮聚焦音效。
+func _play_focus_audio() -> void:
+	var audio := _get_audio()
+	if audio != null:
+		audio.play_ui(0)
+
+
+## 播放按钮确认音效。
+func _play_select_audio() -> void:
+	var audio := _get_audio()
+	if audio != null:
+		audio.play_ui(1)

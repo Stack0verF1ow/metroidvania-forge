@@ -2,13 +2,15 @@ class_name DataManager
 
 const CONFIG_FILE_PATH := "user://settings.cfg"
 const DEFAULT_SAVE_PATH := "user://save.sav"
+const AUDIO_CONFIG_SECTION := "audio"
 
-## 创建一份新游戏默认运行态，供无存档或坏档时兜底使用。
+
+## 创建一份新的默认运行时数据，供新游戏或坏档兜底时使用。
 static func create_new_runtime() -> RunTime:
 	return RunTime.create_new()
 
 
-## 将运行态序列化后写入指定存档文件。
+## 把运行时数据序列化后写入指定存档文件。
 static func save_runtime(runtime: RunTime, save_path: String = DEFAULT_SAVE_PATH) -> bool:
 	if runtime == null:
 		return false
@@ -25,7 +27,7 @@ static func save_runtime(runtime: RunTime, save_path: String = DEFAULT_SAVE_PATH
 	return true
 
 
-## 从指定存档文件读取运行态；若文件缺失或损坏则返回默认运行态。
+## 从指定存档文件读取运行时数据；如果文件缺失或损坏，则回退到默认运行时。
 static func load_runtime(save_path: String = DEFAULT_SAVE_PATH) -> RunTime:
 	if not FileAccess.file_exists(save_path):
 		return create_new_runtime()
@@ -40,23 +42,46 @@ static func load_runtime(save_path: String = DEFAULT_SAVE_PATH) -> RunTime:
 
 	return create_new_runtime()
 
-static func save_configuration() -> void :
-	var config := ConfigFile.new()
-	config.set_value( "audio", "music", AudioServer.get_bus_volume_linear( 2 ) )
-	config.set_value( "audio", "sfx", AudioServer.get_bus_volume_linear( 3 ) )
-	config.set_value( "audio", "ui", AudioServer.get_bus_volume_linear( 4 ) )
-	config.save( CONFIG_FILE_PATH )
 
+## 保存当前三条音频总线的线性音量。
+## 这里统一按总线名读取，避免后续调整 bus 顺序后把配置写到错误的索引上。
+static func save_configuration() -> void:
+	var config := ConfigFile.new()
+	config.set_value(AUDIO_CONFIG_SECTION, "music", _get_bus_volume_linear(&"Music"))
+	config.set_value(AUDIO_CONFIG_SECTION, "sfx", _get_bus_volume_linear(&"SFX"))
+	config.set_value(AUDIO_CONFIG_SECTION, "ui", _get_bus_volume_linear(&"UI"))
+	config.save(CONFIG_FILE_PATH)
+
+
+## 读取玩家保存的音量配置。
+## 如果配置文件不存在或缺少某个键，就沿用 bus layout 当前已经生效的默认值，
+## 避免再维护一套容易和默认布局漂移的魔法数字。
 static func load_configuration() -> void:
 	var config := ConfigFile.new()
-	var err = config.load( CONFIG_FILE_PATH )
-	
-	if err != OK :
-		AudioServer.set_bus_volume_linear( 2, 0.2 )
-		AudioServer.set_bus_volume_linear( 3, 1.0 )
-		AudioServer.set_bus_volume_linear( 4, 1.0 )
+	var err = config.load(CONFIG_FILE_PATH)
+
+	if err != OK:
+		save_configuration()
 		return
-	
-	AudioServer.set_bus_volume_linear( 2, config.get_value( "audio", "music", 0.8 ) )
-	AudioServer.set_bus_volume_linear( 3, config.get_value( "audio", "sfx", 1.0 ) )
-	AudioServer.set_bus_volume_linear( 4, config.get_value( "audio", "ui", 1.0 ) )
+
+	_set_bus_volume_linear(&"Music", config.get_value(AUDIO_CONFIG_SECTION, "music", _get_bus_volume_linear(&"Music")))
+	_set_bus_volume_linear(&"SFX", config.get_value(AUDIO_CONFIG_SECTION, "sfx", _get_bus_volume_linear(&"SFX")))
+	_set_bus_volume_linear(&"UI", config.get_value(AUDIO_CONFIG_SECTION, "ui", _get_bus_volume_linear(&"UI")))
+
+
+## 按总线名读取当前线性音量，作为配置缺省值和保存值的统一入口。
+static func _get_bus_volume_linear(bus_name: StringName) -> float:
+	var bus_index := AudioServer.get_bus_index(bus_name)
+	if bus_index < 0:
+		return 1.0
+
+	return AudioServer.get_bus_volume_linear(bus_index)
+
+
+## 按总线名写入线性音量。
+static func _set_bus_volume_linear(bus_name: StringName, value: float) -> void:
+	var bus_index := AudioServer.get_bus_index(bus_name)
+	if bus_index < 0:
+		return
+
+	AudioServer.set_bus_volume_linear(bus_index, value)

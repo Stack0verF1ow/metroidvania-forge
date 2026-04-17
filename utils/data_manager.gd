@@ -1,5 +1,6 @@
 class_name DataManager
 
+const CONFIG_FILE_PATH := "user://settings.cfg"
 const DEFAULT_SAVE_PATH := "user://save.sav"
 
 ## 创建一份新游戏默认运行态，供无存档或坏档时兜底使用。
@@ -38,3 +39,24 @@ static func load_runtime(save_path: String = DEFAULT_SAVE_PATH) -> RunTime:
 		return RunTime.from_save_dictionary(parsed_data)
 
 	return create_new_runtime()
+
+static func save_configuration() -> void :
+	var config := ConfigFile.new()
+	config.set_value( "audio", "music", AudioServer.get_bus_volume_linear( 2 ) )
+	config.set_value( "audio", "sfx", AudioServer.get_bus_volume_linear( 3 ) )
+	config.set_value( "audio", "ui", AudioServer.get_bus_volume_linear( 4 ) )
+	config.save( CONFIG_FILE_PATH )
+
+static func load_configuration() -> void:
+	var config := ConfigFile.new()
+	var err = config.load( CONFIG_FILE_PATH )
+	
+	if err != OK :
+		AudioServer.set_bus_volume_linear( 2, 0.2 )
+		AudioServer.set_bus_volume_linear( 3, 1.0 )
+		AudioServer.set_bus_volume_linear( 4, 1.0 )
+		return
+	
+	AudioServer.set_bus_volume_linear( 2, config.get_value( "audio", "music", 0.8 ) )
+	AudioServer.set_bus_volume_linear( 3, config.get_value( "audio", "sfx", 1.0 ) )
+	AudioServer.set_bus_volume_linear( 4, config.get_value( "audio", "ui", 1.0 ) )

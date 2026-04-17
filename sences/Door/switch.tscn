@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bpk8vsdqes4si"]
 
 [ext_resource type="Texture2D" uid="uid://bxpiuxirf7gev" path="res://assets/ch_03_game_systems/sprites/door_and_switch.png" id="1_t2y2q"]
-[ext_resource type="Script" uid="uid://b187txv4jniir" path="res://sences/Door/switch.gd" id="1_u6pxv"]
+[ext_resource type="Script" uid="uid://b187txv4jniir" path="res://sences/door/switch.gd" id="1_u6pxv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u6pxv"]
 size = Vector2(34, 26)

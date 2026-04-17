@@ -19,6 +19,7 @@ func _ready() -> void:
 				c.activated.connect( _on_switch_activated )
 
 func _on_switch_activated() -> void:
+	Audio.play_spatial_sound( DOOR_CRASH_AUDIO, global_position )
 	animation_player.play("open")
 
 func _on_switch_is_open() -> void:

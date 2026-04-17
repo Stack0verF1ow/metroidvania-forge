@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddpypcveqh55p"]
+
+[ext_resource type="Script" uid="uid://c4abxc47asce6" path="res://00_global/audio/audio.gd" id="1_qqy3t"]
+
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_6i7w7"]
+polyphony = 16
+
+[node name="Audio" type="Node"]
+script = ExtResource("1_qqy3t")
+
+[node name="Music1" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
+
+[node name="Music2" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
+
+[node name="UI" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = SubResource("AudioStreamPolyphonic_6i7w7")
+bus = &"UI"

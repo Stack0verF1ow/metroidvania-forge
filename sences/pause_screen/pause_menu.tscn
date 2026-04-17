@@ -18,6 +18,21 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0.1)
 
+[sub_resource type="Animation" id="Animation_ct606"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_m0dfq"]
 resource_name = "default"
 length = 0.8
@@ -34,21 +49,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(0.15686275, 0.27058825, 1, 0.5529412)]
-}
-
-[sub_resource type="Animation" id="Animation_ct606"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ciset"]
@@ -152,41 +152,36 @@ offset_left = 51.0
 offset_top = 53.0
 offset_right = 74.0
 offset_bottom = 62.0
-entrances_right = Array[float]([6.4])
 
 [node name="MapNode2" parent="PauseMenu/Map" instance=ExtResource("2_m0dfq")]
 modulate = Color(4.740879e-06, 0.39970973, 0.025868064, 1)
-custom_minimum_size = Vector2(23, 9)
+custom_minimum_size = Vector2(12, 7)
 layout_mode = 0
 offset_left = 76.0
 offset_top = 53.0
-offset_right = 99.0
-offset_bottom = 62.0
+offset_right = 88.0
+offset_bottom = 60.0
 linked_level = 1
-entrances_bottom = Array[float]([16.8])
-entrances_left = Array[float]([7.0])
 
 [node name="MapNode3" parent="PauseMenu/Map" instance=ExtResource("2_m0dfq")]
 modulate = Color(0.9993908, 0.3370284, 0.49380052, 1)
-custom_minimum_size = Vector2(23, 9)
+custom_minimum_size = Vector2(12, 7)
 layout_mode = 0
 offset_left = 101.0
 offset_top = 53.0
-offset_right = 124.0
-offset_bottom = 62.0
+offset_right = 113.0
+offset_bottom = 60.0
 linked_level = 3
-entrances_right = Array[float]([6.4])
 
 [node name="MapNode4" parent="PauseMenu/Map" instance=ExtResource("2_m0dfq")]
 modulate = Color(0.15294118, 0.3254902, 0.5803922, 1)
-custom_minimum_size = Vector2(23, 9)
+custom_minimum_size = Vector2(12, 7)
 layout_mode = 0
 offset_left = 76.0
 offset_top = 67.0
-offset_right = 99.0
-offset_bottom = 76.0
+offset_right = 88.0
+offset_bottom = 74.0
 linked_level = 2
-entrances_top = Array[float]([16.0])
 
 [node name="PlayerIndicator" type="Control" parent="PauseMenu/Map"]
 layout_mode = 1

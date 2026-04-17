@@ -34,7 +34,8 @@ func _ready() -> void:
 
 	show_main_menu()
 	animation_player.animation_finished.connect(_on_animation_finshed)
-
+	
+	setup_button_audio()
 
 ## 切回标题主菜单。
 func show_main_menu() -> void:
@@ -102,6 +103,10 @@ func _on_load_game_pressed(slot: int) -> void:
 		.set_enter_mode(ScreenData.EnterMode.LOAD_GAME)
 	transiton_screen(EmoGame.ScreenType.GAME_SCREEN, screen_data)
 
+func setup_button_audio() -> void :
+	for c in find_children("*", "Button"):
+		c.focus_entered.connect( Audio.play_ui.bind( Audio.Sound.UI_FOCUS ) )
+		c.pressed.connect( Audio.play_ui.bind( Audio.Sound.UI_SELECT ) )
 
 ## 标题动画播完开场段后切到循环动画。
 func _on_animation_finshed(anim_name: String) -> void:

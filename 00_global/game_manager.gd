@@ -13,6 +13,7 @@ var current_run: RunTime = RunTime.create_new()
 ## 确保自动加载的游戏管理器始终持有可用运行态。
 func _ready() -> void:
 	_ensure_current_run()
+	DataManager.load_configuration()
 
 
 ## 采集当前运行中的玩家状态，并委托数据管理器写入当前槽位。

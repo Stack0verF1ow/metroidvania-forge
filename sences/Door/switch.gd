@@ -46,6 +46,7 @@ func _on_player_interacted( _player : Node ) -> void :
 		return
 
 	game_manager.current_run.persistent_data[unique_name()] = "open"
+	Audio.play_spatial_sound( DOOR_SWITCH_AUDIO, global_position )
 	activated.emit()
 	set_open()
 

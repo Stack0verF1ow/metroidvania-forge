@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://bqx4mrpcbc2bf"]
 
 [ext_resource type="Texture2D" uid="uid://bxpiuxirf7gev" path="res://assets/ch_03_game_systems/sprites/door_and_switch.png" id="1_7d1xr"]
-[ext_resource type="Script" uid="uid://bqmu4ddi4ojxn" path="res://sences/Door/door.gd" id="1_t3iq7"]
+[ext_resource type="Script" uid="uid://bqmu4ddi4ojxn" path="res://sences/door/door.gd" id="1_t3iq7"]
 
 [sub_resource type="Animation" id="Animation_t3iq7"]
 length = 0.001

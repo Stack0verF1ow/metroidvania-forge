@@ -19,6 +19,7 @@ func _on_player_exited( _n:Node2D )-> void:
 	Messages.input_hints_changed.emit( "" )
 
 func _on_player_interacted( _player : Player ) -> void:
+	Audio.play_ui(Audio.Sound.UI_SUCCESS)
 	Messages.player_healed.emit( 999 )
 	GameManager.save_game()
 	animation_player.play("game_saved")

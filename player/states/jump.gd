@@ -6,6 +6,7 @@ func init() -> void:
 	pass
 	
 func enter() -> void:
+	VisualEffect.jump_dust( player.global_position )
 	player.animation_player.play("jump")
 	player.animation_player.pause()
 	player.velocity.y = -player.JUMP_VELOCITY

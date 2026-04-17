@@ -43,6 +43,7 @@ func process(delta: float) -> PlayerState:
 
 func physics_process(_delta: float) -> PlayerState : 
 	if player.is_on_floor():
+		VisualEffect.land_dust( player.global_position )
 		if jump_buffer_timer > 0:
 			return jump
 		return idle

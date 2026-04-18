@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var particles : Array[ HitParticleSettings]
+@export var particles : Array[ HitParticleSettings ]
 @export var base_wobble_angle : float = 4.0
 @export var wobble_speed : float = 0.1
 

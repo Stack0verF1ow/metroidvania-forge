@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://cilmdg5tpbdkk"]
+[gd_scene load_steps=12 format=4 uid="uid://cilmdg5tpbdkk"]
 
 [ext_resource type="TileSet" uid="uid://bvacp7qqx3pdc" path="res://levels/forgotten_forest.tres" id="1_epg5w"]
 [ext_resource type="Script" uid="uid://btq3hxg8v8rts" path="res://levels/level.gd" id="1_xo1gp"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bpk8vsdqes4si" path="res://sences/door/switch.tscn" id="8_1ukeu"]
 [ext_resource type="Script" uid="uid://11wam0e7xdau" path="res://music/music_auto_trigger.gd" id="9_1fu2x"]
 [ext_resource type="AudioStream" uid="uid://c378p3qtaufiy" path="res://music/forest_01.ogg" id="10_6i620"]
+[ext_resource type="PackedScene" uid="uid://eypowodqjldu" path="res://sences/prop/spike_dummy.tscn" id="11_6i620"]
 
 [node name="Level_A" type="Node2D"]
 script = ExtResource("1_xo1gp")
@@ -62,3 +63,6 @@ script = ExtResource("9_1fu2x")
 track = ExtResource("10_6i620")
 reverb = 3
 metadata/_custom_type_script = "uid://11wam0e7xdau"
+
+[node name="SpikeDummy" parent="." instance=ExtResource("11_6i620")]
+position = Vector2(621, 295)

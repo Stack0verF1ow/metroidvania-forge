@@ -1,13 +1,18 @@
 class_name Player
 extends CharacterBody2D
 
+signal damage_taken()
+
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_stand: CollisionShape2D = $CollisionShapeStand
 @onready var collision_crouch: CollisionShape2D = $CollisionShapeCrouch
+@onready var da_stand: CollisionShape2D = %DAStand
+@onready var da_crouch: CollisionShape2D = %DACrouch
 @onready var one_way_platform_ray_cast: ShapeCast2D = $OneWayPlatformRayCast
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var attack_area: AttackArea = $AttackArea
 @onready var attack_sprite: Sprite2D = %AttackSprite2D
+@onready var damage_area: DamageArea = %DamageArea
 
 
 const MOVE_SPEED : float = 150
@@ -44,7 +49,8 @@ func _ready() -> void:
 	z_index = 255
 	initialize_states()
 	Messages.player_healed.connect( _on_player_healed )
-	pass
+	damage_area.damage_taken.connect( _on_damage_taken )
+	hp = max_hp
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_released("Jump") and velocity.y < 0 :
@@ -135,3 +141,8 @@ func change_state(new_state : PlayerState) -> void:
 func _on_player_healed( amount: float ) -> void:
 	hp += amount
 	# audio/visual
+
+func _on_damage_taken( attack_area : AttackArea ) -> void:
+	hp -= attack_area.damage
+	damage_taken.emit()
+	

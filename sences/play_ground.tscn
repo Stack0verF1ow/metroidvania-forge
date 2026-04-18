@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=4 uid="uid://d1s36bq3q0tqp"]
+[gd_scene load_steps=7 format=4 uid="uid://d1s36bq3q0tqp"]
 
 [ext_resource type="TileSet" uid="uid://bvacp7qqx3pdc" path="res://levels/forgotten_forest.tres" id="1_1nocq"]
 [ext_resource type="Script" uid="uid://moq7u6mvv81x" path="res://sences/level_bounds/level_bounds.gd" id="2_pmqfl"]
 [ext_resource type="PackedScene" uid="uid://d1k4tnwfe8d32" path="res://sences/player_spawn.tscn" id="3_jtwde"]
 [ext_resource type="PackedScene" uid="uid://c466dc7ig6fvv" path="res://sences/prop/test_dummy.tscn" id="4_jtwde"]
 [ext_resource type="PackedScene" uid="uid://dihe8s7b646j1" path="res://sences/prop/crate_wooden.tscn" id="5_h6d4q"]
+[ext_resource type="PackedScene" uid="uid://eypowodqjldu" path="res://sences/prop/spike_dummy.tscn" id="6_3hp55"]
 
 [node name="PlayGround" type="Node2D"]
 
@@ -28,3 +29,6 @@ position = Vector2(323, 295)
 [node name="Breakable" parent="." instance=ExtResource("5_h6d4q")]
 position = Vector2(388, 272)
 fixed_hit_count = true
+
+[node name="SpikeDummy" parent="." instance=ExtResource("6_3hp55")]
+position = Vector2(282, 294)

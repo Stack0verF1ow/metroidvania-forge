@@ -14,7 +14,7 @@ func _process(delta: float) -> void:
 		randf_range( -shake_strength, shake_strength )
 		)
 	
-	shake_strength = lerp( shake_strength, 0, shake_strength * delta )
+	shake_strength = lerp( shake_strength, 0.0, shake_strength * delta )
 
 func _apply_shake( strength : float ) -> void:
 	shake_strength = min( strength, max_shake_offset )

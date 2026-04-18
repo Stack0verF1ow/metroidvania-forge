@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var collision_crouch: CollisionShape2D = $CollisionShapeCrouch
 @onready var one_way_platform_ray_cast: ShapeCast2D = $OneWayPlatformRayCast
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
+@onready var attack_area: AttackArea = $AttackArea
 
 
 const MOVE_SPEED : float = 150
@@ -49,19 +50,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		Messages.player_interacted.emit( self )
 	change_state( current_state.handle_input(event))
 	
-	# Get rid of later
-	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_MINUS:
-			if Input.is_key_pressed( KEY_SHIFT ):
-				max_hp -= 10
-			else:
-				hp -=2
-		elif event.keycode == KEY_EQUAL :
-			if Input.is_key_pressed( KEY_SHIFT ):
-				max_hp += 10
-			else:
-				hp += 2
-	#end get rid of
+	# Debug
+	if OS.is_debug_build():
+		if event is InputEventKey and event.pressed:
+			if event.keycode == KEY_MINUS:
+				if Input.is_key_pressed( KEY_SHIFT ):
+					max_hp -= 10
+				else:
+					hp -=2
+			elif event.keycode == KEY_EQUAL :
+				if Input.is_key_pressed( KEY_SHIFT ):
+					max_hp += 10
+				else:
+					hp += 2
+		if event.is_action_pressed("Attack"):
+			attack_area.activate()
+	#end Debug
 
 func _process(_delta: float) -> void:
 	update_direction()
@@ -99,6 +103,7 @@ func update_direction() -> void:
 	direction = Vector2(x_axis, y_axis)
 	
 	if direction.x != prev_direction.x :
+		attack_area.filp( direction.x )
 		if direction.x < 0:
 			sprite.flip_h = true
 		elif direction.x > 0:

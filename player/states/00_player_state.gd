@@ -12,6 +12,7 @@ var next_state : PlayerState
 @onready var crouch: PlayerStateCrouch = %Crouch
 @onready var attack: PlayerStateAttack = %Attack
 @onready var take_damege: PlayerStateTakeDamage = %TakeDamege
+@onready var death: PlayerStateDeath = %Death
 
 
 func init() -> void:

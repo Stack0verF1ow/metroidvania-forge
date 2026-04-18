@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bm0y7vuabvbol"]
+[gd_scene load_steps=8 format=3 uid="uid://bm0y7vuabvbol"]
 
 [ext_resource type="Script" uid="uid://d0ctw3ypsl5ep" path="res://sences/player_hud/player_hud.gd" id="1_0086c"]
 [ext_resource type="Texture2D" uid="uid://dgrx48ytcthak" path="res://assets/ch_03_game_systems/sprites/health_bar_frame.png" id="1_hcubo"]
@@ -16,6 +16,19 @@ colors = PackedColorArray(0.8627451, 0.34117648, 0.34117648, 1, 0.9246744, 0.469
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_f1kpb"]
 gradient = SubResource("Gradient_0086c")
 height = 16
+
+[sub_resource type="GDScript" id="GDScript_0086c"]
+script/source = "extends Button
+
+@onready var player_hud: CanvasLayer = $\"../..\"
+
+func _ready() -> void:
+	pressed.connect( _on_pressed )
+
+func _on_pressed() -> void:
+	
+	player_hud.show_game_over()
+"
 
 [node name="PlayerHud" type="CanvasLayer"]
 layer = 2
@@ -126,3 +139,14 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "Quit to title"
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+text = "Test game over"
+script = SubResource("GDScript_0086c")

@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-
 @onready var hp_margin_container: MarginContainer = %HPMarginContainer
 @onready var hp_bar: TextureProgressBar = %HPBar
 @onready var game_over: Control = %GameOver
@@ -10,6 +9,7 @@ extends CanvasLayer
 
 func _ready() -> void:
 	Messages.player_health_changed.connect( update_health_bar )
+	Messages.player_death.connect( show_game_over )
 	
 	game_over.visible = false
 	load_button.pressed.connect( _on_load_pressed )
@@ -20,8 +20,33 @@ func update_health_bar( hp: float, max_hp: float ) -> void:
 	hp_bar.value = value
 	hp_margin_container.size.x = max_hp + 22
 
+func show_game_over() -> void:
+	load_button.visible = false
+	quit_button.visible = false
+	
+	game_over.modulate.a = 0
+	game_over.visible = true
+	
+	var tween : Tween = create_tween()
+	tween.tween_property( game_over, "modulate", Color.WHITE, 3.0 )
+	await tween.finished
+	
+	load_button.visible = true
+	quit_button.visible = true
+	load_button.grab_focus()
+	
+func clear_game_over() -> void:
+	var player : Player = get_tree().get_first_node_in_group("Player")
+	player.queue_free()
+	load_button.visible = false
+	quit_button.visible = false
+	game_over.visible = false
+	
+	
+
 func _on_load_pressed() -> void:
-	pass
+	GameManager.load_game( GameManager.current_run.current_slot )
+	clear_game_over()
 
 func _on_quit_pressed() -> void:
-	pass
+	Messages.back_to_title.emit()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cums1t8ks6e10"]
+[gd_scene load_steps=32 format=3 uid="uid://cums1t8ks6e10"]
 
 [ext_resource type="Script" uid="uid://c4wekd6vy5dqw" path="res://player/scripts/player.gd" id="1_oul6g"]
 [ext_resource type="Texture2D" uid="uid://c54hcvv4rk7c3" path="res://assets/ch_01_player_foundations/hero.png" id="2_boad6"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://d1wvac0gjgwqe" path="res://player/scripts/input_hints.gd" id="8_hg6s5"]
 [ext_resource type="Script" uid="uid://cnps0whajpqyr" path="res://player/states/take_damege.gd" id="8_wodsf"]
 [ext_resource type="Texture2D" uid="uid://bp7bavrr88ql7" path="res://assets/ch_03_game_systems/sprites/input_icons.png" id="9_8t03j"]
+[ext_resource type="Script" uid="uid://be6mssq6j2ieu" path="res://player/death.gd" id="9_tqiix"]
 [ext_resource type="Script" uid="uid://bt3oqfaoknlrr" path="res://sences/attack_area.gd" id="11_2ieo8"]
 [ext_resource type="Script" uid="uid://5fh34a8f1e06" path="res://sences/damage_area.gd" id="14_kb6p2"]
 [ext_resource type="AudioStream" uid="uid://crxtrbsfoi1la" path="res://assets/ch_04_player_abilities/audio/aargh.wav" id="16_32hag"]
@@ -64,7 +65,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -271,12 +272,30 @@ tracks/0/keys = {
 "values": [30]
 }
 
+[sub_resource type="Animation" id="Animation_e7oew"]
+resource_name = "death"
+length = 1.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1, 1.2, 1.3000001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ebec5"]
 _data = {
 &"RESET": SubResource("Animation_rgyib"),
 &"attack": SubResource("Animation_yllr7"),
 &"attack_2": SubResource("Animation_kb6p2"),
 &"crouch": SubResource("Animation_hg6s5"),
+&"death": SubResource("Animation_e7oew"),
 &"idle": SubResource("Animation_boad6"),
 &"jump": SubResource("Animation_2ieo8"),
 &"run": SubResource("Animation_8t03j"),
@@ -323,6 +342,10 @@ script = ExtResource("7_yllr7")
 unique_name_in_owner = true
 script = ExtResource("8_wodsf")
 
+[node name="Death" type="Node" parent="States"]
+unique_name_in_owner = true
+script = ExtResource("9_tqiix")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(1, -39)
 texture = ExtResource("2_boad6")
@@ -331,6 +354,7 @@ vframes = 4
 
 [node name="AttackSprite2D" type="Sprite2D" parent="Sprite2D"]
 unique_name_in_owner = true
+visible = false
 position = Vector2(24, 24)
 texture = ExtResource("8_ebec5")
 hframes = 8

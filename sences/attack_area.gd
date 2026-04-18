@@ -13,6 +13,9 @@ func _ready() -> void:
 func _on_body_entered( body: Node2D ) -> void:
 	if body is DamageArea:
 		body.take_damage( self )
+		var pos : Vector2 = global_position
+		pos.x = body.global_position.x
+		VisualEffect.hit_dust( pos )
 
 func activate( duration : float = 0.1 ) -> void:
 	set_active()

@@ -20,9 +20,11 @@ func exit() -> void:
 	pass
 
 func handle_input( event : InputEvent) -> PlayerState:
+	if event.is_action_pressed("Attack"):
+		return attack
 	if event.is_action_released("Jump"):
-		player.velocity.y *= 0.5
-	return null
+		return fall
+	return next_state
 
 func process(_delta: float) -> PlayerState:
 	set_jump_frame(player.velocity.y, player.JUMP_VELOCITY, 0.0, 0.0, 0.5)

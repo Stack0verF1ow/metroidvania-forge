@@ -19,6 +19,8 @@ func exit() -> void:
 	pass
 
 func handle_input( event : InputEvent) -> PlayerState:
+	if event.is_action_pressed("Attack"):
+		return attack
 	if event.is_action_pressed("Jump"):
 		player.one_way_platform_ray_cast.force_shapecast_update()
 		if player.one_way_platform_ray_cast.is_colliding() == true:

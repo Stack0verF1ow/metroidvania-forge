@@ -7,6 +7,7 @@ extends CharacterBody2D
 @onready var one_way_platform_ray_cast: ShapeCast2D = $OneWayPlatformRayCast
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var attack_area: AttackArea = $AttackArea
+@onready var attack_sprite: Sprite2D = %AttackSprite2D
 
 
 const MOVE_SPEED : float = 150
@@ -46,6 +47,8 @@ func _ready() -> void:
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_released("Jump") and velocity.y < 0 :
+		velocity.y *= 0.5
 	if event.is_action_pressed("Action"):
 		Messages.player_interacted.emit( self )
 	change_state( current_state.handle_input(event))
@@ -63,8 +66,8 @@ func _unhandled_input(event: InputEvent) -> void:
 					max_hp += 10
 				else:
 					hp += 2
-		if event.is_action_pressed("Attack"):
-			attack_area.activate()
+		#if event.is_action_pressed("Attack"):
+			#attack_area.activate()
 	#end Debug
 
 func _process(_delta: float) -> void:
@@ -106,8 +109,12 @@ func update_direction() -> void:
 		attack_area.filp( direction.x )
 		if direction.x < 0:
 			sprite.flip_h = true
+			attack_sprite.flip_h = true
+			attack_sprite.position.x = -24
 		elif direction.x > 0:
 			sprite.flip_h = false
+			attack_sprite.flip_h = false
+			attack_sprite.position.x = 24
 	
 func change_state(new_state : PlayerState) -> void:
 	if new_state == null:

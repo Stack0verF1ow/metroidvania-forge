@@ -1,0 +1,41 @@
+[gd_scene load_steps=10 format=3 uid="uid://dihe8s7b646j1"]
+
+[ext_resource type="Script" uid="uid://co5qw5yr73s7r" path="res://sences/prop/breakable.gd" id="1_ug3al"]
+[ext_resource type="Texture2D" uid="uid://jqlpef3g0vjj" path="res://assets/ch_04_player_abilities/sprites/props_destructible.png" id="2_5wcw4"]
+[ext_resource type="Script" uid="uid://dq8036138ydwf" path="res://00_global/visual_effect/hit_particle_settings.gd" id="2_mmhr2"]
+[ext_resource type="Resource" uid="uid://c2k7llrng38qs" path="res://00_global/visual_effect/hit_particle_settings/hit_wood_medium.tres" id="3_0mdsd"]
+[ext_resource type="Script" uid="uid://5fh34a8f1e06" path="res://sences/damage_area.gd" id="3_11ccu"]
+[ext_resource type="Resource" uid="uid://buyy7iyor8fgd" path="res://00_global/visual_effect/hit_particle_settings/hit_wood_large.tres" id="4_nvm8u"]
+[ext_resource type="Resource" uid="uid://h5btd5q614l7" path="res://00_global/visual_effect/hit_particle_settings/hit_wood_small.tres" id="5_7npt7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_he612"]
+atlas = ExtResource("2_5wcw4")
+region = Rect2(52, 27, 41, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mmhr2"]
+size = Vector2(40, 36)
+
+[node name="Breakable" type="Node2D"]
+script = ExtResource("1_ug3al")
+hit_particles = Array[ExtResource("2_mmhr2")]([ExtResource("3_0mdsd")])
+destroy_particles = Array[ExtResource("2_mmhr2")]([ExtResource("4_nvm8u"), ExtResource("3_0mdsd"), ExtResource("5_7npt7")])
+metadata/_custom_type_script = "uid://co5qw5yr73s7r"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_he612")
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("3_11ccu")
+metadata/_custom_type_script = "uid://5fh34a8f1e06"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_mmhr2")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_mmhr2")

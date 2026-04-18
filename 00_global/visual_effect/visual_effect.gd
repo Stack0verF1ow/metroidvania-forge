@@ -31,7 +31,7 @@ func hit_particles( pos: Vector2, dir: Vector2, settings: HitParticleSettings ) 
 	var p : HitParticles = HIT_PARTICLES.instantiate()
 	add_child( p )
 	p.global_position = pos
-	p.start( pos, settings )
+	p.start( dir, settings )
 
 func camera_shake( strength: float ) -> void:
 	camera_shook.emit( strength )

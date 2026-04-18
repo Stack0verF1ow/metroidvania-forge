@@ -26,7 +26,7 @@ func set_active( value: bool = true ) -> void:
 	monitoring = value
 	visible = value
 
-func filp( direction_x : float ) -> void:
+func flip( direction_x : float ) -> void:
 	if direction_x > 0:
 		scale.x = 1
 	elif direction_x < 0:

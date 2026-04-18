@@ -1,0 +1,45 @@
+[gd_scene load_steps=10 format=3 uid="uid://c466dc7ig6fvv"]
+
+[ext_resource type="Texture2D" uid="uid://jqlpef3g0vjj" path="res://assets/ch_04_player_abilities/sprites/props_destructible.png" id="1_22hjr"]
+[ext_resource type="Script" uid="uid://bq42w1jxps56y" path="res://sences/prop/test_dummy.gd" id="1_mfvqb"]
+[ext_resource type="Script" uid="uid://5fh34a8f1e06" path="res://sences/damage_area.gd" id="1_vob5j"]
+[ext_resource type="Script" uid="uid://dq8036138ydwf" path="res://00_global/visual_effect/hit_particle_settings.gd" id="2_cr46q"]
+[ext_resource type="Resource" uid="uid://h5btd5q614l7" path="res://00_global/visual_effect/hit_particle_settings/hit_wood_small.tres" id="3_7laav"]
+[ext_resource type="Resource" uid="uid://c2k7llrng38qs" path="res://00_global/visual_effect/hit_particle_settings/hit_wood_medium.tres" id="4_xf6q0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ocpkq"]
+atlas = ExtResource("1_22hjr")
+region = Rect2(17, 10, 14, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfvqb"]
+atlas = ExtResource("1_22hjr")
+region = Rect2(16, 51, 16, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_22hjr"]
+size = Vector2(16, 38.5)
+
+[node name="TestDummy" type="Node2D"]
+script = ExtResource("1_mfvqb")
+particles = Array[ExtResource("2_cr46q")]([ExtResource("3_7laav"), ExtResource("4_xf6q0")])
+
+[node name="BodySprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -9)
+texture = SubResource("AtlasTexture_ocpkq")
+offset = Vector2(0, -19)
+
+[node name="BaseSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -6)
+texture = SubResource("AtlasTexture_mfvqb")
+
+[node name="DamageArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -29)
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("1_vob5j")
+metadata/_custom_type_script = "uid://5fh34a8f1e06"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+shape = SubResource("RectangleShape2D_22hjr")
+debug_color = Color(0, 0.6, 0.69803923, 0.05882353)

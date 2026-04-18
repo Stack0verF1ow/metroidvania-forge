@@ -106,7 +106,7 @@ func update_direction() -> void:
 	direction = Vector2(x_axis, y_axis)
 	
 	if direction.x != prev_direction.x :
-		attack_area.filp( direction.x )
+		attack_area.flip( direction.x )
 		if direction.x < 0:
 			sprite.flip_h = true
 			attack_sprite.flip_h = true
